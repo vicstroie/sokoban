@@ -25,10 +25,19 @@ public class Sticky : MonoBehaviour
 
         playerPos = player.GetComponent<Player>().currentPos;
         
-        if((playerPos.x == currentPos.x + 1 || playerPos.x == currentPos.x - 1) && (playerPos.x == currentPos.x + 1 || playerPos.x == currentPos.x - 1))
-        {
+        //if((playerPos.x == currentPos.x + 1 || playerPos.x == currentPos.x - 1) && (playerPos.x == currentPos.x + 1 || playerPos.x == currentPos.x - 1))
+        //{
             if (Input.GetKeyDown(KeyCode.W))
             {
+
+                for(int i = 0; i < 5; i++)
+                {
+                    
+                }
+
+                //if (Manager.reference.blocks[0].GetComponent<Player>().currentPos.x == currentPos.x + 1)
+
+
                 if (currentPos.y > 1) currentPos.y--;
             }
 
@@ -46,7 +55,7 @@ public class Sticky : MonoBehaviour
             {
                 if (currentPos.x < 10) currentPos.x++;
             }
-        }
+        //}
         
 
        

@@ -5,10 +5,14 @@ using UnityEngine;
 public class Manager : MonoBehaviour
 {
     public GameObject player;
-    GameObject[] stickys;
-    GameObject[] smooths;
-    GameObject[] clingys;
-    GameObject[] walls;
+    public GameObject sticky;
+    public GameObject smooth;
+    public GameObject clingy;
+    public GameObject wall;
+
+    public GameObject[] blocks;
+
+    public Vector2Int[] pos;
 
     public static Manager reference;
 
@@ -20,13 +24,14 @@ public class Manager : MonoBehaviour
     {
         reference = this;
 
-        player = GameObject.FindGameObjectWithTag("player");
-        stickys = GameObject.FindGameObjectsWithTag("sticky");
-        smooths = GameObject.FindGameObjectsWithTag("smooth");
-        clingys = GameObject.FindGameObjectsWithTag("clingy");
-        walls = GameObject.FindGameObjectsWithTag("wall");
+        blocks = new GameObject[5];
+        blocks[0] = player;
+        blocks[1] = sticky;
+        blocks[2] = smooth;
+        blocks[3] = clingy;
+        blocks[4] = wall;
 
-
+        pos = new Vector2Int[5];
 
 
 
@@ -52,7 +57,7 @@ public class Manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        pos[0] = new Vector2Int(blocks[0].GetComponent<Player>().currentPos.x, GetComponent<Player>().currentPos.y);
     }
 
 
