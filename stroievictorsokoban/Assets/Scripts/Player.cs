@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
 {
 
     public Vector2Int currentPos;
+    public Vector2Int prevPos;
 
 
 
@@ -21,22 +22,30 @@ public class Player : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.W))
         {
-            if(currentPos.y > 1) currentPos.y--;
+            //&& (Manager.reference.pos[3].y != currentPos.y - 1 && Manager.reference.pos[3].x != currentPos.x)
+            if (currentPos.y > 1 ) currentPos.y--;
+            prevPos = currentPos;
         }
 
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.S) )
         {
-            if(currentPos.y < 5) currentPos.y++;
+            //&& (Manager.reference.pos[3].y != currentPos.y + 1 && Manager.reference.pos[3].x != currentPos.x)
+            if (currentPos.y < 5 ) currentPos.y++;
+            prevPos = currentPos;
         }
 
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.A) )
         {
-            if(currentPos.x > 1) currentPos.x--;
+            //&& (Manager.reference.pos[3].y != currentPos.y && Manager.reference.pos[3].x != currentPos.x - 1)
+            if (currentPos.x > 1 ) currentPos.x--;
+            prevPos = currentPos;
         }
 
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.D) )
         {
-            if(currentPos.x < 10) currentPos.x++;
+            //&& (Manager.reference.pos[3].y != currentPos.y && Manager.reference.pos[3].x != currentPos.x + 1)
+            if (currentPos.x < 10 ) currentPos.x++;
+            prevPos = currentPos;
         }
 
         this.gameObject.GetComponent<GridObject>().gridPosition = currentPos;

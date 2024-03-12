@@ -13,6 +13,7 @@ public class Manager : MonoBehaviour
     public GameObject[] blocks;
 
     public Vector2Int[] pos;
+    public bool[] touched;
 
     public static Manager reference;
 
@@ -24,12 +25,12 @@ public class Manager : MonoBehaviour
     {
         reference = this;
 
-        blocks = new GameObject[5];
-        blocks[0] = player;
-        blocks[1] = sticky;
-        blocks[2] = smooth;
-        blocks[3] = clingy;
-        blocks[4] = wall;
+        blocks = new GameObject[4];
+        //blocks[0] = player;
+        blocks[0] = sticky;
+        blocks[1] = smooth;
+        blocks[2] = clingy;
+        blocks[3] = wall;
 
         pos = new Vector2Int[5];
 
@@ -57,7 +58,16 @@ public class Manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        pos[0] = new Vector2Int(blocks[0].GetComponent<Player>().currentPos.x, GetComponent<Player>().currentPos.y);
+        pos[0] = new Vector2Int(blocks[0].GetComponent<Sticky>().currentPos.x, blocks[0].GetComponent<Sticky>().currentPos.y);
+        pos[1] = new Vector2Int(blocks[1].GetComponent<Smooth>().currentPos.x, blocks[1].GetComponent<Smooth>().currentPos.y);
+        pos[2] = new Vector2Int(blocks[2].GetComponent<Clingy>().currentPos.x, blocks[2].GetComponent<Clingy>().currentPos.y);
+        pos[3] = new Vector2Int(blocks[3].GetComponent<Wall>().currentPos.x, blocks[3].GetComponent<Wall>().currentPos.y);
+
+
+        touched[0] = blocks[0].GetComponent<Sticky>().touchedByPlayer;
+        touched[1] = blocks[0].GetComponent<Smooth>().touchedByPlayer;
+        touched[2] = blocks[0].GetComponent<Clingy>().touchedByPlayer;
+        touched[3] = blocks[0].GetComponent<Wall>().touchedByPlayer;
     }
 
 
