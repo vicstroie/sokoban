@@ -14,8 +14,9 @@ public class Player : Block
         base.touchedByPlayer = true;
     }
 
+
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
 
         if (currentPos.y == 1) base.cantUp = true; else base.cantUp = false;

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Smooth : Block
@@ -17,12 +18,16 @@ public class Smooth : Block
         base.currentPos = this.gameObject.GetComponent<GridObject>().gridPosition;
         //player = Manager.reference.player;
     }
+    
 
+
+   
     // Update is called once per frame
     void Update()
     {
 
         base.currentPos = this.gameObject.GetComponent<GridObject>().gridPosition;
+
         if (currentPos.y == 1) base.cantUp = true; else base.cantUp = false;
         if (currentPos.y == 5) base.cantDown = true; else base.cantDown = false;
         if (currentPos.x == 1) base.cantLeft = true; else base.cantLeft = false;

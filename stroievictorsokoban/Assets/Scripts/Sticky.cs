@@ -52,20 +52,21 @@ public class Sticky : Block
 
 
 
-        if (touchedByPlayer) {
-
-
             if (Input.GetKeyDown(KeyCode.W))
             {
                 for (int i = 0; i < 4; i++)
                 {
                     if (Manager.reference.pos[i].x == base.currentPos.x && Manager.reference.pos[i].y == base.currentPos.y - 1)
                     {
-                        if (Manager.reference.blocks[i].GetComponent<Block>().cantUp) base.cantUp = true;
+                        if (Manager.reference.blocks[i].GetComponent<Block>().cantUp)
+                        {
+                            base.cantUp = true;
+                        }
+                        
                     }
                 }
 
-                if (!base.cantUp) base.currentPos.y--;
+                if (!base.cantUp && touchedByPlayer) base.currentPos.y--;
             }
 
             if (Input.GetKeyDown(KeyCode.S))
@@ -75,10 +76,11 @@ public class Sticky : Block
                     if (Manager.reference.pos[i].x == base.currentPos.x && Manager.reference.pos[i].y == base.currentPos.y + 1)
                     {
                         if (Manager.reference.blocks[i].GetComponent<Block>().cantDown) base.cantDown = true;
+                        //if (Manager.reference.blocks[i].GetComponent<Block>().touchedByPlayer) touchedByPlayer = true;
                     }
                 }
 
-                if (!base.cantDown) base.currentPos.y++;
+                if (!base.cantDown && touchedByPlayer) base.currentPos.y++;
             }
 
             if (Input.GetKeyDown(KeyCode.A))
@@ -88,11 +90,12 @@ public class Sticky : Block
                     if (Manager.reference.pos[i].x == base.currentPos.x - 1 && Manager.reference.pos[i].y == base.currentPos.y)
                     {
                         if (Manager.reference.blocks[i].GetComponent<Block>().cantLeft) base.cantLeft = true;
+                        //if (Manager.reference.blocks[i].GetComponent<Block>().touchedByPlayer) touchedByPlayer = true;
                     }
                 }
 
 
-                if (!base.cantLeft) base.currentPos.x--;
+                if (!base.cantLeft && touchedByPlayer) base.currentPos.x--;
             }
 
             if (Input.GetKeyDown(KeyCode.D))
@@ -102,14 +105,12 @@ public class Sticky : Block
                     if (Manager.reference.pos[i].x == base.currentPos.x + 1 && Manager.reference.pos[i].y == base.currentPos.y)
                     {
                         if (Manager.reference.blocks[i].GetComponent<Block>().cantRight) base.cantRight = true;
+                        //if (Manager.reference.blocks[i].GetComponent<Block>().touchedByPlayer) touchedByPlayer = true;
                     }
                 }
 
-                if (!base.cantRight) base.currentPos.x++;
+                if (!base.cantRight && touchedByPlayer) base.currentPos.x++;
             }
-
-            
-        }
         
 
         this.gameObject.GetComponent<GridObject>().gridPosition = base.currentPos;
