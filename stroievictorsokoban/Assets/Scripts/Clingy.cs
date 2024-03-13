@@ -48,25 +48,28 @@ public class Clingy : Block
 
         if ((playerPos.y == base.currentPos.y - 1 && playerPos.x == base.currentPos.x))
         {
+            base.cantDown = true;
             if (!base.cantUp && Input.GetKeyDown(KeyCode.W)) base.currentPos.y--;
         }
 
         if ((playerPos.y == base.currentPos.y + 1 && playerPos.x == base.currentPos.x))
         {
+            base.cantUp = true;
             if (!base.cantDown && Input.GetKeyDown(KeyCode.S)) base.currentPos.y++;
         }
 
         if ((playerPos.y == base.currentPos.y && playerPos.x == base.currentPos.x - 1))
         {
-
-            Debug.Log("PRIGHT");
+            base.cantRight = true;
+            //Debug.Log("PRIGHT");
             if (!base.cantLeft && Input.GetKeyDown(KeyCode.A)) base.currentPos.x--;
         }
 
         if ((playerPos.y == base.currentPos.y && playerPos.x == base.currentPos.x + 1))
         {
+            base.cantLeft = true;
             if (!base.cantRight && Input.GetKeyDown(KeyCode.D)) base.currentPos.x++;
-            Debug.Log("PLEFT");
+            //Debug.Log("PLEFT");
         }
 
 

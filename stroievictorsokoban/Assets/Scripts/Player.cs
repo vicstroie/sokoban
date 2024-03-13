@@ -30,7 +30,7 @@ public class Player : Block
         {
             //&& (Manager.reference.pos[3].y != currentPos.y - 1 && Manager.reference.pos[3].x != currentPos.x)
 
-            for(int i = 0; i < 4; i++) {
+            for(int i = 0; i < 5; i++) {
                if (Manager.reference.pos[i].x == base.currentPos.x && Manager.reference.pos[i].y == base.currentPos.y - 1)
                 {
                     if (Manager.reference.blocks[i].GetComponent<Block>().cantUp) base.cantUp = true;
@@ -43,7 +43,7 @@ public class Player : Block
 
         if (Input.GetKeyDown(KeyCode.S) )
         {
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 5; i++)
             {
                 if (Manager.reference.pos[i].x == base.currentPos.x && Manager.reference.pos[i].y == base.currentPos.y + 1)
                 {
@@ -58,7 +58,7 @@ public class Player : Block
         if (Input.GetKeyDown(KeyCode.A) )
         {
             //&& (Manager.reference.pos[3].y != currentPos.y && Manager.reference.pos[3].x != currentPos.x - 1)
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 5; i++)
             {
                 if (Manager.reference.pos[i].x == base.currentPos.x - 1 && Manager.reference.pos[i].y == base.currentPos.y)
                 {
@@ -74,7 +74,7 @@ public class Player : Block
         if (Input.GetKeyDown(KeyCode.D) )
         {
             //&& (Manager.reference.pos[3].y != currentPos.y && Manager.reference.pos[3].x != currentPos.x + 1)
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 5; i++)
             {
                 if (Manager.reference.pos[i].x == base.currentPos.x + 1 && Manager.reference.pos[i].y == base.currentPos.y)
                 {

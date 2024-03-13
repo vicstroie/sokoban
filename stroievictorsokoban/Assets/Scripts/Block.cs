@@ -5,6 +5,7 @@ using UnityEngine;
 public class Block : MonoBehaviour
 {
     public bool touchedByPlayer;
+    public bool movable;
     public Vector2Int currentPos;
     public bool cantLeft;
     public bool cantRight;
