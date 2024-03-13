@@ -2,11 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Sticky : MonoBehaviour
+public class Sticky : Block
 {
 
-    public bool touchedByPlayer;
-    public Vector2Int currentPos;
+   
     Vector2Int playerPos;
     public GameObject player;
 
@@ -16,8 +15,8 @@ public class Sticky : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        touchedByPlayer = false;
-        currentPos = this.gameObject.GetComponent<GridObject>().gridPosition;
+        base.touchedByPlayer = false;
+        base.currentPos = this.gameObject.GetComponent<GridObject>().gridPosition;
         //player = Manager.reference.player;
     }
 
@@ -25,29 +24,30 @@ public class Sticky : MonoBehaviour
     void Update()
     {
 
-        currentPos = this.gameObject.GetComponent<GridObject>().gridPosition;
-        
-        for(int i = 0; i < 4; i++)
-        {
-            if (Manager.reference.touched[i])
-            {
+        base.currentPos = this.gameObject.GetComponent<GridObject>().gridPosition;
 
-            }
-        }
+        if (currentPos.y == 1) base.cantUp = true; else base.cantUp = false;
+        if (currentPos.y == 5) base.cantDown = true; else base.cantDown = false;
+        if (currentPos.x == 1) base.cantLeft = true; else base.cantLeft = false;
+        if (currentPos.x == 10) base.cantRight = true; else base.cantRight = false;
+
 
         playerPos = player.GetComponent<Player>().currentPos;
-        if ((playerPos.x == currentPos.x + 1 && playerPos.y == currentPos.y) 
-            || (playerPos.x == currentPos.x && playerPos.y == currentPos.y + 1)
-            || (playerPos.x == currentPos.x - 1 && playerPos.y == currentPos.y)
-            || (playerPos.x == currentPos.x && playerPos.y == currentPos.y - 1))
+
+
+
+        if ((playerPos.x == base.currentPos.x + 1 && playerPos.y == base.currentPos.y) 
+            || (playerPos.x == base.currentPos.x && playerPos.y == base.currentPos.y + 1)
+            || (playerPos.x == base.currentPos.x - 1 && playerPos.y == base.currentPos.y)
+            || (playerPos.x == base.currentPos.x && playerPos.y == base.currentPos.y - 1))
 
 
         {
-            touchedByPlayer = true;
+            base.touchedByPlayer = true;
         }
         else
         {
-            touchedByPlayer = false;
+            base.touchedByPlayer = false;
         }
 
 
@@ -57,41 +57,62 @@ public class Sticky : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.W))
             {
-
-                /*
-                    for(int i = 0; i < 5; i++)
+                for (int i = 0; i < 4; i++)
+                {
+                    if (Manager.reference.pos[i].x == base.currentPos.x && Manager.reference.pos[i].y == base.currentPos.y - 1)
                     {
-
+                        if (Manager.reference.blocks[i].GetComponent<Block>().cantUp) base.cantUp = true;
                     }
-                    */
-                //if (Manager.reference.blocks[0].GetComponent<Player>().currentPos.x == currentPos.x + 1)
+                }
 
-
-                if (currentPos.y > 1) currentPos.y--;
+                if (!base.cantUp) base.currentPos.y--;
             }
 
             if (Input.GetKeyDown(KeyCode.S))
             {
-                if (currentPos.y < 5) currentPos.y++;
+                for (int i = 0; i < 4; i++)
+                {
+                    if (Manager.reference.pos[i].x == base.currentPos.x && Manager.reference.pos[i].y == base.currentPos.y + 1)
+                    {
+                        if (Manager.reference.blocks[i].GetComponent<Block>().cantDown) base.cantDown = true;
+                    }
+                }
+
+                if (!base.cantDown) base.currentPos.y++;
             }
 
             if (Input.GetKeyDown(KeyCode.A))
             {
-                if (currentPos.x > 1) currentPos.x--;
+                for (int i = 0; i < 4; i++)
+                {
+                    if (Manager.reference.pos[i].x == base.currentPos.x - 1 && Manager.reference.pos[i].y == base.currentPos.y)
+                    {
+                        if (Manager.reference.blocks[i].GetComponent<Block>().cantLeft) base.cantLeft = true;
+                    }
+                }
+
+
+                if (!base.cantLeft) base.currentPos.x--;
             }
 
             if (Input.GetKeyDown(KeyCode.D))
             {
-                if (currentPos.x < 10) currentPos.x++;
+                for (int i = 0; i < 4; i++)
+                {
+                    if (Manager.reference.pos[i].x == base.currentPos.x + 1 && Manager.reference.pos[i].y == base.currentPos.y)
+                    {
+                        if (Manager.reference.blocks[i].GetComponent<Block>().cantRight) base.cantRight = true;
+                    }
+                }
+
+                if (!base.cantRight) base.currentPos.x++;
             }
 
             
         }
         
 
-       
-
-        this.gameObject.GetComponent<GridObject>().gridPosition = currentPos;
+        this.gameObject.GetComponent<GridObject>().gridPosition = base.currentPos;
 
 
     }

@@ -32,7 +32,8 @@ public class Manager : MonoBehaviour
         blocks[2] = clingy;
         blocks[3] = wall;
 
-        pos = new Vector2Int[5];
+        pos = new Vector2Int[4];
+        touched = new bool[4];
 
 
 
@@ -58,16 +59,18 @@ public class Manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        pos[0] = new Vector2Int(blocks[0].GetComponent<Sticky>().currentPos.x, blocks[0].GetComponent<Sticky>().currentPos.y);
-        pos[1] = new Vector2Int(blocks[1].GetComponent<Smooth>().currentPos.x, blocks[1].GetComponent<Smooth>().currentPos.y);
-        pos[2] = new Vector2Int(blocks[2].GetComponent<Clingy>().currentPos.x, blocks[2].GetComponent<Clingy>().currentPos.y);
-        pos[3] = new Vector2Int(blocks[3].GetComponent<Wall>().currentPos.x, blocks[3].GetComponent<Wall>().currentPos.y);
-
-
-        touched[0] = blocks[0].GetComponent<Sticky>().touchedByPlayer;
-        touched[1] = blocks[0].GetComponent<Smooth>().touchedByPlayer;
-        touched[2] = blocks[0].GetComponent<Clingy>().touchedByPlayer;
-        touched[3] = blocks[0].GetComponent<Wall>().touchedByPlayer;
+        
+        pos[0] = new Vector2Int(blocks[0].GetComponent<Block>().currentPos.x, blocks[0].GetComponent<Block>().currentPos.y);
+        pos[1] = new Vector2Int(blocks[1].GetComponent<Block>().currentPos.x, blocks[1].GetComponent<Block>().currentPos.y);
+        pos[2] = new Vector2Int(blocks[2].GetComponent<Block>().currentPos.x, blocks[2].GetComponent<Block>().currentPos.y);
+        pos[3] = new Vector2Int(blocks[3].GetComponent<Block>().currentPos.x, blocks[3].GetComponent<Block>().currentPos.y);
+        
+        
+        touched[0] = blocks[0].GetComponent<Block>().touchedByPlayer;
+        touched[1] = blocks[1].GetComponent<Block>().touchedByPlayer;
+        touched[2] = blocks[2].GetComponent<Block>().touchedByPlayer;
+        touched[3] = blocks[3].GetComponent<Block>().touchedByPlayer;
+        
     }
 
 

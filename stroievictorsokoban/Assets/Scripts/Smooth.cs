@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Smooth : MonoBehaviour
+public class Smooth : Block
 {
-    public bool touchedByPlayer;
-    public Vector2Int currentPos;
+    
     Vector2Int playerPos;
     Vector2Int playerPrev;
     public GameObject player;
@@ -14,8 +13,8 @@ public class Smooth : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        touchedByPlayer = false;
-        currentPos = this.gameObject.GetComponent<GridObject>().gridPosition;
+        base.touchedByPlayer = false;
+        base.currentPos = this.gameObject.GetComponent<GridObject>().gridPosition;
         //player = Manager.reference.player;
     }
 
@@ -23,57 +22,44 @@ public class Smooth : MonoBehaviour
     void Update()
     {
 
-        currentPos = this.gameObject.GetComponent<GridObject>().gridPosition;
-
+        base.currentPos = this.gameObject.GetComponent<GridObject>().gridPosition;
+        if (currentPos.y == 1) base.cantUp = true; else base.cantUp = false;
+        if (currentPos.y == 5) base.cantDown = true; else base.cantDown = false;
+        if (currentPos.x == 1) base.cantLeft = true; else base.cantLeft = false;
+        if (currentPos.x == 10) base.cantRight = true; else base.cantRight = false;
 
 
         playerPos = player.GetComponent<Player>().currentPos;
-        playerPrev = player.GetComponent<Player>().prevPos;
-
-        if ((playerPos.x == currentPos.x + 1 && playerPos.y == currentPos.y)
-            || (playerPos.x == currentPos.x && playerPos.y == currentPos.y + 1)
-            || (playerPos.x == currentPos.x - 1 && playerPos.y == currentPos.y)
-            || (playerPos.x == currentPos.x && playerPos.y == currentPos.y - 1))
-
-
-        {
-            touchedByPlayer = true;
-        }
-        else
-        {
-            touchedByPlayer = false;
-        }
-
 
 
        
-            if ((playerPos.y == currentPos.y + 1 && playerPos.x == currentPos.x))
+            if ((playerPos.y == base.currentPos.y + 1 && playerPos.x == base.currentPos.x))
             {
-                if (currentPos.y > 1 && Input.GetKeyDown(KeyCode.W)) currentPos.y--;
+                if (!base.cantUp && Input.GetKeyDown(KeyCode.W)) base.currentPos.y--;
             }
 
-            if ((playerPos.y == currentPos.y - 1 && playerPos.x == currentPos.x))
+            if ((playerPos.y == base.currentPos.y - 1 && playerPos.x == base.currentPos.x))
             {
-                if (currentPos.y < 5 && Input.GetKeyDown(KeyCode.S)) currentPos.y++;
+                if (!base.cantDown && Input.GetKeyDown(KeyCode.S)) base.currentPos.y++;
             }
 
-            if ((playerPos.y == currentPos.y && playerPos.x == currentPos.x + 1))
+            if ((playerPos.y == base.currentPos.y && playerPos.x == base.currentPos.x + 1))
             {
 
                 Debug.Log("PRIGHT");
-                if (currentPos.x > 1 && Input.GetKeyDown(KeyCode.A)) currentPos.x--;
+                if (!base.cantLeft && Input.GetKeyDown(KeyCode.A)) base.currentPos.x--;
             }
 
-            if ((playerPos.y == currentPos.y && playerPos.x == currentPos.x - 1))
+            if ((playerPos.y == base.currentPos.y && playerPos.x == base.currentPos.x - 1))
             {
-                if (currentPos.x < 10 && Input.GetKeyDown(KeyCode.D)) currentPos.x++;
+                if (!base.cantRight && Input.GetKeyDown(KeyCode.D)) base.currentPos.x++;
                 Debug.Log("PLEFT");
             }
 
 
 
 
-        this.gameObject.GetComponent<GridObject>().gridPosition = currentPos;
+        this.gameObject.GetComponent<GridObject>().gridPosition = base.currentPos;
 
 
     }

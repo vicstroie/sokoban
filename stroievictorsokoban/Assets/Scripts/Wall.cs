@@ -2,19 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Wall : MonoBehaviour
+public class Wall : Block
 {
-    public bool touchedByPlayer;
-    public Vector2Int currentPos;
+    
     // Start is called before the first frame update
     void Start()
     {
-        currentPos = this.gameObject.GetComponent<GridObject>().gridPosition;
+        base.currentPos = this.gameObject.GetComponent<GridObject>().gridPosition;
+        base.cantUp = true;
+        base.cantDown = true;
+        base.cantLeft = true;
+        base.cantRight = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        currentPos = this.gameObject.GetComponent<GridObject>().gridPosition;
+        base.currentPos = this.gameObject.GetComponent<GridObject>().gridPosition;
     }
 }
