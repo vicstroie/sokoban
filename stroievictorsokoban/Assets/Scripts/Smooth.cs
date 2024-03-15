@@ -1,14 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using static Unity.Collections.AllocatorManager;
 
 public class Smooth : Block
 {
-    
-    Vector2Int playerPos;
-    Vector2Int playerPrev;
     public GameObject player;
+
+
+    Vector2Int prevPos;
+    bool move;
+
 
 
     // Start is called before the first frame update
@@ -17,6 +21,7 @@ public class Smooth : Block
         base.touchedByPlayer = false;
         base.currentPos = this.gameObject.GetComponent<GridObject>().gridPosition;
         //player = Manager.reference.player;
+
     }
     
 
@@ -26,46 +31,351 @@ public class Smooth : Block
     void Update()
     {
 
-        base.currentPos = this.gameObject.GetComponent<GridObject>().gridPosition;
-
-        if (currentPos.y == 1) base.cantUp = true; else base.cantUp = false;
-        if (currentPos.y == 5) base.cantDown = true; else base.cantDown = false;
-        if (currentPos.x == 1) base.cantLeft = true; else base.cantLeft = false;
-        if (currentPos.x == 10) base.cantRight = true; else base.cantRight = false;
 
 
-        playerPos = player.GetComponent<Player>().currentPos;
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+
+            canUp = CheckUp();
+
+            prevPos = base.currentPos;
+            if (base.canUp) base.currentPos.y--;
+            move = true;
+
+        }
+
+        if (Input.GetKeyDown(KeyCode.S))
+        {
 
 
-       
-            if ((playerPos.y == base.currentPos.y + 1 && playerPos.x == base.currentPos.x))
+            canDown = CheckDown();
+
+            prevPos = base.currentPos;
+            if (base.canDown) base.currentPos.y++;
+            move = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+
+            canLeft = CheckLeft();
+
+            prevPos = base.currentPos;
+            if (base.canLeft) base.currentPos.x--;
+            move = true;
+
+        }
+
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+
+            canRight = CheckRight();
+
+            prevPos = base.currentPos;
+            if (base.canRight) base.currentPos.x++;
+            move = true;
+           
+          
+        }
+
+
+    }
+
+    private void LateUpdate()
+    {
+        if (move)
+        {
+            Manager.reference.blockArray[prevPos.x, prevPos.y] = null;
+            this.gameObject.GetComponent<GridObject>().gridPosition = base.currentPos;
+            move = false;
+        }
+    }
+
+
+    public bool CheckUp()
+    {
+        if (currentPos.y == 1 || currentPos.y == 5)
+        {
+            return false;
+        }
+        else
+        {
+            GameObject upblock = Manager.reference.blockArray[currentPos.x, currentPos.y - 1];
+            GameObject downblock = Manager.reference.blockArray[currentPos.x, currentPos.y + 1];
+
+
+            if (upblock == null)
             {
-                if (!base.cantUp && Input.GetKeyDown(KeyCode.W)) base.currentPos.y--;
+                if(downblock == null)
+                {
+                    return false;
+                }
+                else if (downblock.CompareTag("clingy"))
+                {
+                    return false;
+                }
+                else if (downblock.CompareTag("player"))
+                {
+                    return true;
+                }
+                else if (downblock.CompareTag("sticky"))
+                {   //come back, unless sticky can't moove for some other reason
+                    return downblock.GetComponent<Block>().canUp;
+                }
+                else if (downblock.CompareTag("wall"))
+                {
+                    return false;
+                }
+                else //smooth
+                {
+                    return true;
+                }
+
+            }
+            else
+            {
+                if (upblock.CompareTag("clingy"))
+                {
+                    return false;
+                }
+                else if (upblock.CompareTag("player"))
+                {
+                    return false;
+                }
+                else if (upblock.CompareTag("sticky"))
+                {
+                    return upblock.GetComponent<Block>().canUp;
+                }
+                else if (upblock.CompareTag("wall"))
+                {
+                    return false;
+                }
+                else //smooth
+                {
+                    return upblock.GetComponent<Smooth>().CheckUp();
+                }
             }
 
-            if ((playerPos.y == base.currentPos.y - 1 && playerPos.x == base.currentPos.x))
+        }
+    }
+
+
+   
+
+
+    public bool CheckDown()
+    {
+        if (currentPos.y == 5 || currentPos.y == 1)
+        {
+            return false;
+        }
+        else
+        {
+            GameObject upblock = Manager.reference.blockArray[currentPos.x, currentPos.y - 1];
+            GameObject downblock = Manager.reference.blockArray[currentPos.x, currentPos.y + 1];
+
+
+            if (downblock == null)
             {
-                if (!base.cantDown && Input.GetKeyDown(KeyCode.S)) base.currentPos.y++;
+                if(upblock == null)
+                {
+                    return false;
+                }
+                else if (upblock.CompareTag("clingy"))
+                {
+                    return false;
+                }
+                else if (upblock.CompareTag("player"))
+                {
+                    return true;
+                }
+                else if (upblock.CompareTag("sticky"))
+                {   //come back, unless sticky can't moove for some other reason
+                    return upblock.GetComponent<Block>().canDown;
+                }
+                else if (upblock.CompareTag("wall"))
+                {
+                    return false;
+                }
+                else //smooth
+                {
+                    return true;
+                }
+
+            }
+            else
+            {
+                if (downblock.CompareTag("clingy"))
+                {
+                    return false;
+                }
+                else if (downblock.CompareTag("player"))
+                {
+                    return false;
+                }
+                else if (downblock.CompareTag("sticky"))
+                {
+                    /*
+                    if(downblock.CompareTag("player"))
+                    {
+
+                    } else
+                    {
+
+                    }
+                    */
+                    return downblock.GetComponent<Block>().canDown;
+                }
+                else if (downblock.CompareTag("wall"))
+                {
+                    return false;
+                }
+                else //smooth
+                {
+                    return downblock.GetComponent<Smooth>().CheckDown();
+                }
             }
 
-            if ((playerPos.y == base.currentPos.y && playerPos.x == base.currentPos.x + 1))
-            {
+        }
+    }
 
-                Debug.Log("PRIGHT");
-                if (!base.cantLeft && Input.GetKeyDown(KeyCode.A)) base.currentPos.x--;
+
+
+
+    public bool CheckLeft()
+    {
+        if (currentPos.x == 1 || currentPos.x == 10)
+        {
+            return false;
+        }
+        else
+        {
+
+            GameObject leftblock = Manager.reference.blockArray[currentPos.x - 1, currentPos.y];
+            GameObject rightblock = Manager.reference.blockArray[currentPos.x + 1, currentPos.y];   
+
+
+            if (leftblock == null)
+            {
+                if(rightblock == null)
+                {
+                    return false;
+                } else if (rightblock.CompareTag("clingy"))
+                {
+                    return false;
+                }
+                else if (rightblock.CompareTag("player"))
+                {
+                    return true;
+                }
+                else if (rightblock.CompareTag("sticky"))
+                {   //come back, unless sticky can't moove for some other reason
+                    return rightblock.GetComponent<Block>().canLeft;
+                }
+                else if (rightblock.CompareTag("wall"))
+                {
+                    return false;
+                }
+                else //smooth
+                {
+                    return true;
+                }
+
+            }
+            else
+            {
+                if (leftblock.CompareTag("clingy"))
+                {
+                    return false;
+                }
+                else if (leftblock.CompareTag("player"))
+                {
+                    return false;
+                }
+                else if (leftblock.CompareTag("sticky"))
+                {
+                    return leftblock.GetComponent<Block>().canLeft;
+                }
+                else if (leftblock.CompareTag("wall"))
+                {
+                    return false;
+                }
+                else //smooth
+                {
+                    return false;
+                }
             }
 
-            if ((playerPos.y == base.currentPos.y && playerPos.x == base.currentPos.x - 1))
+        }
+    }
+
+
+    public bool CheckRight()
+    {
+        if (currentPos.x == 10 || currentPos.x == 1)
+        {
+            return false;
+        }
+            else
             {
-                if (!base.cantRight && Input.GetKeyDown(KeyCode.D)) base.currentPos.x++;
-                Debug.Log("PLEFT");
-            }
+                GameObject leftblock = Manager.reference.blockArray[currentPos.x - 1, currentPos.y];
+                GameObject rightblock = Manager.reference.blockArray[currentPos.x + 1, currentPos.y];
 
 
 
+            
+                if (rightblock == null)
+                {
+                    if(leftblock == null)
+                    {
+                        return false;
+                    }
+                    else if(leftblock.CompareTag("clingy"))
+                    {
+                        return false;
+                    }
+                    else if (leftblock.CompareTag("player"))
+                    {
+                        return true;
+                    }
+                    else if (leftblock.CompareTag("sticky"))
+                    {   //come back, unless sticky can't moove for some other reason
+                        return rightblock.GetComponent<Block>().canRight;
+                    }
+                    else if (leftblock.CompareTag("wall"))
+                    {
+                        return false;
+                    }
+                    else //smooth
+                    {
+                        return false;
+                    }
 
-        this.gameObject.GetComponent<GridObject>().gridPosition = base.currentPos;
+                }
+                else
+                {
+                    if (rightblock.CompareTag("clingy"))
+                    {
+                        return false;
+                    }
+                    else if (rightblock.CompareTag("player"))
+                    {
+                        return false;
+                    }
+                    else if (rightblock.CompareTag("sticky"))
+                    {
+                        return rightblock.GetComponent<Block>().canRight;
+                    }
+                    else if (rightblock.CompareTag("wall"))
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
 
-
+        }
     }
 }

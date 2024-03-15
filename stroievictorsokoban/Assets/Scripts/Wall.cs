@@ -9,10 +9,10 @@ public class Wall : Block
     void Start()
     {
         base.currentPos = this.gameObject.GetComponent<GridObject>().gridPosition;
-        base.cantUp = true;
-        base.cantDown = true;
-        base.cantLeft = true;
-        base.cantRight = true;
+        base.canUp = false;
+        base.canDown = false;
+        base.canLeft = false;
+        base.canRight = false;
     }
 
     // Update is called once per frame

@@ -11,6 +11,7 @@ public class Manager : MonoBehaviour
     public GameObject wall;
 
     public GameObject[] blocks;
+    public GameObject[,] blockArray;
 
     public Vector2Int[] pos;
     public bool[] touched;
@@ -34,6 +35,16 @@ public class Manager : MonoBehaviour
 
         pos = new Vector2Int[5];
         touched = new bool[5];
+        blockArray = new GameObject[11,6];
+
+
+        for(int i = 0; i < 11; i++)
+        {
+            for(int j = 0; j < 6; j++)
+            {
+                blockArray[i, j] = null;
+            }
+        }
 
 
 
@@ -64,8 +75,9 @@ public class Manager : MonoBehaviour
 
         for(int i = 0; i < blocks.Length; i++)
         {
-            pos[i] = new Vector2Int(blocks[i].GetComponent<Block>().currentPos.x, blocks[i].GetComponent<Block>().currentPos.y);
-            touched[i] = blocks[i].GetComponent<Block>().touchedByPlayer;
+            //pos[i] = new Vector2Int(blocks[i].GetComponent<GridObject>().gridPosition.x, blocks[i].GetComponent<GridObject>().gridPosition.y);
+            blockArray[blocks[i].GetComponent<GridObject>().gridPosition.x, blocks[i].GetComponent<GridObject>().gridPosition.y] = blocks[i];
+            //touched[i] = blocks[i].GetComponent<Block>().touchedByPlayer;
 
         }
 

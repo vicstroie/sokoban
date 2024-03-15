@@ -26,20 +26,20 @@ public class Sticky : Block
 
         base.currentPos = this.gameObject.GetComponent<GridObject>().gridPosition;
 
-        if (currentPos.y == 1) base.cantUp = true; else base.cantUp = false;
-        if (currentPos.y == 5) base.cantDown = true; else base.cantDown = false;
-        if (currentPos.x == 1) base.cantLeft = true; else base.cantLeft = false;
-        if (currentPos.x == 10) base.cantRight = true; else base.cantRight = false;
+        if (currentPos.y == 1) base.canUp = false; else base.canUp = true;
+        if (currentPos.y == 5) base.canDown = false; else base.canDown = true;
+        if (currentPos.x == 1) base.canLeft = false; else base.canLeft = true;
+        if (currentPos.x == 10) base.canRight = false; else base.canRight = true;
 
 
         playerPos = player.GetComponent<Player>().currentPos;
 
  
 
-       // CheckIfTouched();
-        //CheckIfMovable();
+       //CheckIfTouched();
+       // CheckIfMovable();
         
-
+        /*
 
             if (Input.GetKeyDown(KeyCode.W))
             {
@@ -51,12 +51,12 @@ public class Sticky : Block
                         {
                             base.cantUp = true;
                         }
-                        /*
+                        
                         if (Manager.reference.pos[i].x == base.currentPos.x && Manager.reference.pos[i].y == base.currentPos.y - 1)
                         {
                             if (Manager.reference.touched[i]) touchedByPlayer = true;
                         }
-                        */
+                        
 
                      }
                 }
@@ -74,10 +74,10 @@ public class Sticky : Block
                      }
 
 
-                    /*if (Manager.reference.pos[i].x == base.currentPos.x && Manager.reference.pos[i].y == base.currentPos.y - 1)
+                    if (Manager.reference.pos[i].x == base.currentPos.x && Manager.reference.pos[i].y == base.currentPos.y - 1)
                     {
                         if (Manager.reference.touched[i]) touchedByPlayer = true;
-                    }*/
+                    }
             }
 
                 if (!base.cantDown && touchedByPlayer) base.currentPos.y++;
@@ -91,10 +91,10 @@ public class Sticky : Block
                         {
                               if (Manager.reference.blocks[i].GetComponent<Block>().cantLeft) base.cantLeft = true;
                         }
-                        /*if (Manager.reference.pos[i].x == base.currentPos.x + 1 && Manager.reference.pos[i].y == base.currentPos.y)
+                        if (Manager.reference.pos[i].x == base.currentPos.x + 1 && Manager.reference.pos[i].y == base.currentPos.y)
                         {
                               if (Manager.reference.touched[i]) touchedByPlayer = true;
-                        }*/
+                        }
             }
 
 
@@ -110,15 +110,15 @@ public class Sticky : Block
                         if (Manager.reference.touched[i]) touchedByPlayer = true;
                     }
 
-                    /*if (Manager.reference.pos[i].x == base.currentPos.x + 1 && Manager.reference.pos[i].y == base.currentPos.y)
+                    if (Manager.reference.pos[i].x == base.currentPos.x + 1 && Manager.reference.pos[i].y == base.currentPos.y)
                     {
                         if (Manager.reference.blocks[i].GetComponent<Block>().cantRight) base.cantRight = true;
-                    }*/
+                    }
                 }
 
                 if (!base.cantRight && touchedByPlayer) base.currentPos.x++;
             }
-        
+        */
 
         this.gameObject.GetComponent<GridObject>().gridPosition = base.currentPos;
 
