@@ -17,12 +17,22 @@ public class Clingy : Block
     {
         base.touchedByPlayer = false;
         base.currentPos = this.gameObject.GetComponent<GridObject>().gridPosition;
+
+        canDown = false;
+        canUp = false;
+        canRight = false;
+        canLeft = false;
         //player = Manager.reference.player;
     }
 
     // Update is called once per frame
     void Update()
     {
+
+
+
+        base.currentPos = this.gameObject.GetComponent<GridObject>().gridPosition;
+
         if (Input.GetKeyDown(KeyCode.W))
         {
 

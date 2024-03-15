@@ -20,6 +20,14 @@ public class Smooth : Block
     {
         base.touchedByPlayer = false;
         base.currentPos = this.gameObject.GetComponent<GridObject>().gridPosition;
+
+        canDown = false;
+        canUp = false;
+        canRight = false;
+        canLeft = false;
+
+
+
         //player = Manager.reference.player;
 
     }
@@ -30,7 +38,7 @@ public class Smooth : Block
     // Update is called once per frame
     void Update()
     {
-
+        base.currentPos = this.gameObject.GetComponent<GridObject>().gridPosition;
 
 
         if (Input.GetKeyDown(KeyCode.W))
@@ -215,15 +223,6 @@ public class Smooth : Block
                 }
                 else if (downblock.CompareTag("sticky"))
                 {
-                    /*
-                    if(downblock.CompareTag("player"))
-                    {
-
-                    } else
-                    {
-
-                    }
-                    */
                     return downblock.GetComponent<Block>().canDown;
                 }
                 else if (downblock.CompareTag("wall"))
@@ -284,6 +283,10 @@ public class Smooth : Block
             }
             else
             {
+                if(rightblock == null)
+                {
+                    return false;
+                }
                 if (leftblock.CompareTag("clingy"))
                 {
                     return false;
@@ -294,7 +297,8 @@ public class Smooth : Block
                 }
                 else if (leftblock.CompareTag("sticky"))
                 {
-                    return leftblock.GetComponent<Block>().canLeft;
+                    return rightblock.GetComponent<Block>().canLeft;
+                    //return leftblock.GetComponent<Sticky>().CheckLeft();
                 }
                 else if (leftblock.CompareTag("wall"))
                 {
@@ -302,7 +306,7 @@ public class Smooth : Block
                 }
                 else //smooth
                 {
-                    return false;
+                    return leftblock.GetComponent<Smooth>().CheckLeft();
                 }
             }
 
@@ -341,6 +345,7 @@ public class Smooth : Block
                     else if (leftblock.CompareTag("sticky"))
                     {   //come back, unless sticky can't moove for some other reason
                         return rightblock.GetComponent<Block>().canRight;
+                        //return rightblock.GetComponent<Sticky>().CheckRight();
                     }
                     else if (leftblock.CompareTag("wall"))
                     {
@@ -354,6 +359,10 @@ public class Smooth : Block
                 }
                 else
                 {
+                    if(leftblock == null)
+                    {
+                        return false;
+                    }
                     if (rightblock.CompareTag("clingy"))
                     {
                         return false;
@@ -365,14 +374,15 @@ public class Smooth : Block
                     else if (rightblock.CompareTag("sticky"))
                     {
                         return rightblock.GetComponent<Block>().canRight;
+                        //return rightblock.GetComponent<Sticky>().CheckRight();
                     }
                     else if (rightblock.CompareTag("wall"))
                     {
                         return false;
                     }
-                    else
+                    else //smooth
                     {
-                        return false;
+                        return rightblock.GetComponent<Smooth>().CheckRight();
                     }
                 }
 

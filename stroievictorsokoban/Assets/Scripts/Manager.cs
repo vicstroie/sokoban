@@ -35,12 +35,12 @@ public class Manager : MonoBehaviour
 
         pos = new Vector2Int[5];
         touched = new bool[5];
-        blockArray = new GameObject[11,6];
+        blockArray = new GameObject[12,7];
 
 
-        for(int i = 0; i < 11; i++)
+        for(int i = 0; i < 12; i++)
         {
-            for(int j = 0; j < 6; j++)
+            for(int j = 0; j < 7; j++)
             {
                 blockArray[i, j] = null;
             }
