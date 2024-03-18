@@ -97,7 +97,7 @@ public class Clingy : Block
 
     public bool CheckUp()
     {
-        if (currentPos.y == 2 || currentPos.y == 1)
+        if (currentPos.y == 1)
         {
             return false;
         }
@@ -119,7 +119,7 @@ public class Clingy : Block
                 }
                 else if (upblock.CompareTag("player"))
                 {
-                    return true;
+                    return upblock.GetComponent<Player>().CheckUp();
                 }
                 else if (upblock.CompareTag("sticky"))
                 {
@@ -144,7 +144,7 @@ public class Clingy : Block
 
     public bool CheckDown()
     {
-        if (currentPos.y == 5 || currentPos.y == 4)
+        if (currentPos.y == 5)
         {
             return false;
         }
@@ -166,7 +166,7 @@ public class Clingy : Block
                 }
                 else if (downblock.CompareTag("player"))
                 {
-                    return true;
+                    return downblock.GetComponent<Player>().CheckDown();
                 }
                 else if (downblock.CompareTag("sticky"))
                 {
@@ -190,7 +190,7 @@ public class Clingy : Block
 
     public bool CheckLeft()
     {
-        if (currentPos.x == 1 || currentPos.x == 2)
+        if (currentPos.x == 1)
         {
             return false;
         }
@@ -212,7 +212,7 @@ public class Clingy : Block
                 }
                 else if (leftblock.CompareTag("player"))
                 {
-                    return true;
+                    return leftblock.GetComponent<Player>().CheckLeft();
                 }
                 else if (leftblock.CompareTag("sticky"))
                 {
@@ -234,15 +234,13 @@ public class Clingy : Block
 
     public bool CheckRight()
     {
-        if (currentPos.x == 10 || currentPos.x == 9)
+        if (currentPos.x == 10)
         {
             return false;
         }
         else
         {
             GameObject rightblock = Manager.reference.blockArray[currentPos.x + 1, currentPos.y];
-
-
 
 
             if (rightblock == null)
@@ -257,7 +255,7 @@ public class Clingy : Block
                 }
                 else if (rightblock.CompareTag("player"))
                 {
-                    return true;
+                    return rightblock.GetComponent<Player>().CheckRight();
                 }
                 else if (rightblock.CompareTag("sticky"))
                 {

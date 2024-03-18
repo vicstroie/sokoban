@@ -165,7 +165,7 @@ public class Player : Block
                 }
                 else if (block.CompareTag("sticky"))
                 {
-                    return block.GetComponent<Block>().canDown;
+                    return block.GetComponent<Sticky>().CheckDown();
                 }
                 else if (block.CompareTag("wall"))
                 {
@@ -211,7 +211,7 @@ public class Player : Block
                 }
                 else if (block.CompareTag("sticky"))
                 {
-                    return block.GetComponent<Block>().canLeft;
+                    return block.GetComponent<Sticky>().CheckLeft();
                 }
                 else if (block.CompareTag("wall"))
                 {
@@ -255,7 +255,7 @@ public class Player : Block
                 }
                 else if (block.CompareTag("sticky"))
                 {
-                    return block.GetComponent<Block>().canRight;
+                    return block.GetComponent<Sticky>().CheckRight();
                 }
                 else if (block.CompareTag("wall"))
                 {
