@@ -24,4 +24,10 @@ public class Block : MonoBehaviour
     {
         
     }
+
+
+    public void PosDebug()
+    {
+        Debug.Log(this.gameObject.tag + ": " + currentPos.x + ", " + currentPos.y);
+    }
 }

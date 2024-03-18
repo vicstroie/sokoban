@@ -38,9 +38,11 @@ public class Sticky : Block
 
             canUp = CheckUp();
 
-            prevPos = base.currentPos;
-            if (base.canUp) base.currentPos.y--;
-            move = true;
+            if (base.canUp) {
+                prevPos = base.currentPos;
+                base.currentPos.y--;
+                move = true;
+            }
 
         }
 
@@ -50,9 +52,14 @@ public class Sticky : Block
 
             canDown = CheckDown();
 
-            prevPos = base.currentPos;
-            if (base.canDown) base.currentPos.y++;
-            move = true;
+            if (base.canDown)
+            {
+                prevPos = base.currentPos;
+                base.currentPos.y++;
+                move = true;
+
+            }
+            
         }
 
         if (Input.GetKeyDown(KeyCode.A))
@@ -60,9 +67,12 @@ public class Sticky : Block
 
             canLeft = CheckLeft();
 
-            prevPos = base.currentPos;
-            if (base.canLeft) base.currentPos.x--;
-            move = true;
+            if (base.canLeft)
+            {
+                prevPos = base.currentPos;
+                base.currentPos.x--;
+                move = true;
+            }
 
         }
 
@@ -71,9 +81,12 @@ public class Sticky : Block
 
             canRight = CheckRight();
 
-            prevPos = base.currentPos;
-            if (base.canRight) base.currentPos.x++;
-            move = true;
+            if (base.canRight)
+            {
+                prevPos = base.currentPos;
+                base.currentPos.x++;
+                move = true;
+            }
 
 
         }
@@ -670,14 +683,6 @@ public class Sticky : Block
 
         }
     }
-
-
-    private void PosDebug()
-    {
-        Debug.Log(this.gameObject.tag + ": " + currentPos.x + ", " + currentPos.y);
-    }
-
-
 
 
 

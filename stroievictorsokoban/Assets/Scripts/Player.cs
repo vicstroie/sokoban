@@ -31,10 +31,14 @@ public class Player : Block
             canUp = CheckUp();
             //canUp = true;
 
-            prevPos = base.currentPos;
-            if (base.canUp)  base.currentPos.y--;
-            move = true;
-
+            
+            if (base.canUp)
+            {
+                prevPos = base.currentPos;
+                base.currentPos.y--;
+                move = true;
+            }
+                
         }
 
         if (Input.GetKeyDown(KeyCode.S) )
@@ -44,10 +48,14 @@ public class Player : Block
             canDown = CheckDown();
 
             //canDown = true;
-            prevPos = base.currentPos;
-            if (base.canDown) base.currentPos.y++;
-            move = true;
             
+            if (base.canDown)
+            {
+                prevPos = base.currentPos;
+                base.currentPos.y++;
+                move = true;
+            }
+
         }
 
         if (Input.GetKeyDown(KeyCode.A) )
@@ -56,9 +64,14 @@ public class Player : Block
             canLeft = CheckLeft();
 
             //canLeft = true;
-            prevPos = base.currentPos;
-            if (base.canLeft) base.currentPos.x--;
-            move = true;
+            
+            if (base.canLeft)
+            {
+                prevPos = base.currentPos;
+                base.currentPos.x--;
+                move = true;
+            }
+                
             //prevPos = currentPos;
         }
 
@@ -68,10 +81,14 @@ public class Player : Block
             canRight = CheckRight();
 
             //canRight = true;
-            prevPos= base.currentPos;
-            if (base.canRight) base.currentPos.x++;
-            move = true;
-
+            
+            if (base.canRight)
+            {
+                prevPos = base.currentPos;
+                base.currentPos.x++;
+                move = true;
+            }
+                
             //prevPos = currentPos;
         }
 
@@ -122,7 +139,7 @@ public class Player : Block
                 }
                 else if (block.CompareTag("sticky"))
                 {
-                    return block.GetComponent<Block>().canUp;
+                    return block.GetComponent<Sticky>().CheckUp();
                 }
                 else if (block.CompareTag("wall"))
                 {

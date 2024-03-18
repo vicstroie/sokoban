@@ -90,6 +90,7 @@ public class Clingy : Block
         {
             Manager.reference.blockArray[prevPos.x, prevPos.y] = null;
             this.gameObject.GetComponent<GridObject>().gridPosition = base.currentPos;
+            base.PosDebug();
             move = false;
         }
     }
@@ -123,7 +124,7 @@ public class Clingy : Block
                 }
                 else if (upblock.CompareTag("sticky"))
                 {
-                    return upblock.GetComponent<Block>().canUp;
+                    return upblock.GetComponent<Sticky>().CheckUp();
                 }
                 else if (upblock.CompareTag("wall"))
                 {
@@ -170,7 +171,7 @@ public class Clingy : Block
                 }
                 else if (downblock.CompareTag("sticky"))
                 {
-                    return downblock.GetComponent<Block>().canDown;
+                    return downblock.GetComponent<Sticky>().CheckDown();
                 }
                 else if (downblock.CompareTag("wall"))
                 {
@@ -216,7 +217,7 @@ public class Clingy : Block
                 }
                 else if (leftblock.CompareTag("sticky"))
                 {
-                    return leftblock.GetComponent<Block>().canLeft;
+                    return leftblock.GetComponent<Sticky>().CheckLeft();
                 }
                 else if (leftblock.CompareTag("wall"))
                 {
@@ -259,7 +260,7 @@ public class Clingy : Block
                 }
                 else if (rightblock.CompareTag("sticky"))
                 {
-                    return rightblock.GetComponent<Block>().canRight;
+                    return rightblock.GetComponent<Sticky>().CheckRight();
                 }
                 else if (rightblock.CompareTag("wall"))
                 {
