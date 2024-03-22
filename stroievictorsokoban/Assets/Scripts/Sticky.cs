@@ -374,7 +374,8 @@ public class Sticky : Block
             }
             else if (rightblock.CompareTag("player"))
             {
-                return leftblock.GetComponent<Player>().CheckRight();
+                //return rightblock.GetComponent<Player>().CheckRight();
+                return true;
             }
             else if (rightblock.CompareTag("clingy"))
             {

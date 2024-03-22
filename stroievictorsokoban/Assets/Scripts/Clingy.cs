@@ -36,11 +36,15 @@ public class Clingy : Block
         if (Input.GetKeyDown(KeyCode.W))
         {
 
-            canUp = CheckUp();
+            //canUp = CheckUp();
 
-            prevPos = base.currentPos;
-            if (base.canUp) base.currentPos.y--;
-            move = true;
+
+            if(CheckUp())
+            {
+                prevPos = base.currentPos;
+                base.currentPos.y--;
+                move = true;
+            }
 
         }
 
@@ -48,33 +52,46 @@ public class Clingy : Block
         {
 
 
-            canDown = CheckDown();
+            //canDown = CheckDown();
 
-            prevPos = base.currentPos;
-            if (base.canDown) base.currentPos.y++;
-            move = true;
+
+            if (CheckDown())
+            {
+                prevPos = base.currentPos;
+                base.currentPos.y++;
+                move = true;
+            }
+
+            
         }
 
         if (Input.GetKeyDown(KeyCode.A))
         {
 
-            canLeft = CheckLeft();
+            //canLeft = CheckLeft();
 
-            prevPos = base.currentPos;
-            if (base.canLeft) base.currentPos.x--;
-            move = true;
+
+            if(CheckLeft())
+            {
+                prevPos = base.currentPos;
+                base.currentPos.x--;
+                move = true;
+            }
+            
 
         }
 
         if (Input.GetKeyDown(KeyCode.D))
         {
 
-            canRight = CheckRight();
+            //canRight = CheckRight();
 
-            prevPos = base.currentPos;
-            if (base.canRight) base.currentPos.x++;
-            move = true;
-
+            if(CheckRight())
+            {
+                prevPos = base.currentPos;
+                base.currentPos.x++;
+                move = true;
+            }
 
         }
 
@@ -145,6 +162,7 @@ public class Clingy : Block
 
     public bool CheckDown()
     {
+        
         if (currentPos.y == 5)
         {
             return false;
