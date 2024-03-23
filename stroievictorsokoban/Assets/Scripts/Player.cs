@@ -16,6 +16,7 @@ public class Player : Block
     {
         base.currentPos = this.gameObject.GetComponent<GridObject>().gridPosition;
         base.touchedByPlayer = true;
+        //nextPos = currentPos;
     }
 
 
@@ -28,82 +29,66 @@ public class Player : Block
         if (Input.GetKeyDown(KeyCode.W))
         {
 
-            canUp = CheckUp();
-            //canUp = true;
 
-            
-            if (base.canUp)
+            if (CheckUp())
             {
-                prevPos = base.currentPos;
-                base.currentPos.y--;
+                nextPos.y = currentPos.y - 1;
+                nextPos.x = currentPos.x;
                 move = true;
             }
-                
+
         }
 
-        if (Input.GetKeyDown(KeyCode.S) )
+        if (Input.GetKeyDown(KeyCode.S))
         {
 
-
-            canDown = CheckDown();
-
-            //canDown = true;
-            
-            if (base.canDown)
+            if (CheckDown())
             {
-                prevPos = base.currentPos;
-                base.currentPos.y++;
+               
+                nextPos.y = currentPos.y + 1;
+                nextPos.x = currentPos.x;
                 move = true;
             }
 
+
         }
 
-        if (Input.GetKeyDown(KeyCode.A) )
+        if (Input.GetKeyDown(KeyCode.A))
         {
-
-            canLeft = CheckLeft();
-
-            //canLeft = true;
-            
-            if (base.canLeft)
+            if (CheckLeft())
             {
-                prevPos = base.currentPos;
-                base.currentPos.x--;
+
+                nextPos.x = currentPos.x - 1;
+                nextPos.y = currentPos.y;
                 move = true;
             }
-                
-            //prevPos = currentPos;
+
+
         }
 
-        if (Input.GetKeyDown(KeyCode.D) )
+        if (Input.GetKeyDown(KeyCode.D))
         {
-
-            canRight = CheckRight();
-
-            //canRight = true;
-            
-            if (base.canRight)
+            if (CheckRight())
             {
-                prevPos = base.currentPos;
-                base.currentPos.x++;
+                nextPos.x = currentPos.x + 1;
+                nextPos.y = currentPos.y;
                 move = true;
             }
-                
-            //prevPos = currentPos;
+
         }
 
-        
-        
+
     }
 
     private void LateUpdate()
     {
-        //Maybe put this.gameObject.GetComponent<GridObject>().gridPosition = base.currentPos; here
 
         if(move)
         {
-            Manager.reference.blockArray[prevPos.x, prevPos.y] = null;
-            this.gameObject.GetComponent<GridObject>().gridPosition = base.currentPos;
+            Manager.reference.blockArray[currentPos.x, currentPos.y] = null;
+            currentPos = nextPos;
+            this.gameObject.GetComponent<GridObject>().gridPosition = currentPos;
+            nextPos = Vector2Int.zero;
             move = false;
         }
         
@@ -120,7 +105,7 @@ public class Player : Block
         else
         {
             GameObject block = Manager.reference.blockArray[currentPos.x, currentPos.y - 1];
-
+            
 
             if (block == null)
             {
@@ -148,7 +133,9 @@ public class Player : Block
                 else {
                     return false;
                 }
+            
             }
+        
 
         }
     }

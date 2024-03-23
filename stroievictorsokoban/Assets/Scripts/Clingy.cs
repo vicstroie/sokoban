@@ -18,31 +18,23 @@ public class Clingy : Block
         base.touchedByPlayer = false;
         base.currentPos = this.gameObject.GetComponent<GridObject>().gridPosition;
 
-        canDown = false;
-        canUp = false;
-        canRight = false;
-        canLeft = false;
         //player = Manager.reference.player;
     }
 
     // Update is called once per frame
     void Update()
     {
-
-
-
         base.currentPos = this.gameObject.GetComponent<GridObject>().gridPosition;
+
 
         if (Input.GetKeyDown(KeyCode.W))
         {
 
-            //canUp = CheckUp();
 
-
-            if(CheckUp())
+            if (CheckUp())
             {
-                prevPos = base.currentPos;
-                base.currentPos.y--;
+                nextPos.y = currentPos.y - 1;
+                nextPos.x = currentPos.x;
                 move = true;
             }
 
@@ -51,65 +43,57 @@ public class Clingy : Block
         if (Input.GetKeyDown(KeyCode.S))
         {
 
-
-            //canDown = CheckDown();
-
-
             if (CheckDown())
             {
-                prevPos = base.currentPos;
-                base.currentPos.y++;
+
+                nextPos.y = currentPos.y + 1;
+                nextPos.x = currentPos.x;
                 move = true;
             }
 
-            
+
         }
 
         if (Input.GetKeyDown(KeyCode.A))
         {
-
-            //canLeft = CheckLeft();
-
-
-            if(CheckLeft())
+            if (CheckLeft())
             {
-                prevPos = base.currentPos;
-                base.currentPos.x--;
+
+                nextPos.x = currentPos.x - 1;
+                nextPos.y = currentPos.y;
                 move = true;
             }
-            
+
 
         }
 
         if (Input.GetKeyDown(KeyCode.D))
         {
-
-            //canRight = CheckRight();
-
-            if(CheckRight())
+            if (CheckRight())
             {
-                prevPos = base.currentPos;
-                base.currentPos.x++;
+                nextPos.x = currentPos.x + 1;
+                nextPos.y = currentPos.y;
                 move = true;
             }
 
         }
 
 
-        
-
     }
-
 
     private void LateUpdate()
     {
-        if(move)
+        //Maybe put this.gameObject.GetComponent<GridObject>().gridPosition = base.currentPos; here
+
+        if (move)
         {
-            Manager.reference.blockArray[prevPos.x, prevPos.y] = null;
-            this.gameObject.GetComponent<GridObject>().gridPosition = base.currentPos;
-            base.PosDebug();
+            Manager.reference.blockArray[currentPos.x, currentPos.y] = null;
+            currentPos = nextPos;
+            this.gameObject.GetComponent<GridObject>().gridPosition = currentPos;
+            nextPos = Vector2Int.zero;
             move = false;
         }
+
     }
 
 
@@ -129,29 +113,30 @@ public class Clingy : Block
                 return false;
 
             }
-            else
+            
+            
+            if (upblock.CompareTag("smooth"))
             {
-                if (upblock.CompareTag("smooth"))
-                {
-                    return false;
-                }
-                else if (upblock.CompareTag("player"))
-                {
-                    return upblock.GetComponent<Player>().CheckUp();
-                }
-                else if (upblock.CompareTag("sticky"))
-                {
-                    return upblock.GetComponent<Sticky>().CheckUp();
-                }
-                else if (upblock.CompareTag("wall"))
-                {
-                    return false;
-                }
-                else //clingy
-                {
-                    return upblock.GetComponent<Clingy>().CheckUp();
-                }
+                return false;
             }
+            else if (upblock.CompareTag("player"))
+            {
+                Debug.Log("HERE");
+                return upblock.GetComponent<Player>().CheckUp();
+            }
+            else if (upblock.CompareTag("sticky"))
+            {
+                return upblock.GetComponent<Sticky>().CheckUp();
+            }
+            else if (upblock.CompareTag("wall"))
+            {
+                return false;
+            }
+            else //clingy
+            {
+                return upblock.GetComponent<Clingy>().CheckUp();
+            }
+            
 
         }
     }

@@ -21,20 +21,14 @@ public class Smooth : Block
         base.touchedByPlayer = false;
         base.currentPos = this.gameObject.GetComponent<GridObject>().gridPosition;
 
-        canDown = false;
-        canUp = false;
-        canRight = false;
-        canLeft = false;
-
-
 
         //player = Manager.reference.player;
 
     }
-    
 
 
-   
+
+
     // Update is called once per frame
     void Update()
     {
@@ -44,46 +38,52 @@ public class Smooth : Block
         if (Input.GetKeyDown(KeyCode.W))
         {
 
-            canUp = CheckUp();
 
-            prevPos = base.currentPos;
-            if (base.canUp) base.currentPos.y--;
-            move = true;
+            if (CheckUp())
+            {
+                nextPos.y = currentPos.y - 1;
+                nextPos.x = currentPos.x;
+                move = true;
+            }
 
         }
 
         if (Input.GetKeyDown(KeyCode.S))
         {
 
+            if (CheckDown())
+            {
 
-            canDown = CheckDown();
+                nextPos.y = currentPos.y + 1;
+                nextPos.x = currentPos.x;
+                move = true;
+            }
 
-            prevPos = base.currentPos;
-            if (base.canDown) base.currentPos.y++;
-            move = true;
+
         }
 
         if (Input.GetKeyDown(KeyCode.A))
         {
+            if (CheckLeft())
+            {
 
-            canLeft = CheckLeft();
+                nextPos.x = currentPos.x - 1;
+                nextPos.y = currentPos.y;
+                move = true;
+            }
 
-            prevPos = base.currentPos;
-            if (base.canLeft) base.currentPos.x--;
-            move = true;
 
         }
 
         if (Input.GetKeyDown(KeyCode.D))
         {
+            if (CheckRight())
+            {
+                nextPos.x = currentPos.x + 1;
+                nextPos.y = currentPos.y;
+                move = true;
+            }
 
-            canRight = CheckRight();
-
-            prevPos = base.currentPos;
-            if (base.canRight) base.currentPos.x++;
-            move = true;
-           
-          
         }
 
 
@@ -91,12 +91,17 @@ public class Smooth : Block
 
     private void LateUpdate()
     {
+        //Maybe put this.gameObject.GetComponent<GridObject>().gridPosition = base.currentPos; here
+
         if (move)
         {
-            Manager.reference.blockArray[prevPos.x, prevPos.y] = null;
-            this.gameObject.GetComponent<GridObject>().gridPosition = base.currentPos;
+            Manager.reference.blockArray[currentPos.x, currentPos.y] = null;
+            currentPos = nextPos;
+            this.gameObject.GetComponent<GridObject>().gridPosition = currentPos;
+            nextPos = Vector2Int.zero;
             move = false;
         }
+
     }
 
 

@@ -29,18 +29,17 @@ public class Sticky : Block
     // Update is called once per frame
     void Update()
     {
-
         base.currentPos = this.gameObject.GetComponent<GridObject>().gridPosition;
 
 
         if (Input.GetKeyDown(KeyCode.W))
         {
 
-            canUp = CheckUp();
 
-            if (base.canUp) {
-                prevPos = base.currentPos;
-                base.currentPos.y--;
+            if (CheckUp())
+            {
+                nextPos.y = currentPos.y - 1;
+                nextPos.x = currentPos.x;
                 move = true;
             }
 
@@ -49,61 +48,58 @@ public class Sticky : Block
         if (Input.GetKeyDown(KeyCode.S))
         {
 
-
-            canDown = CheckDown();
-
-            if (base.canDown)
+            if (CheckDown())
             {
-                prevPos = base.currentPos;
-                base.currentPos.y++;
-                move = true;
 
+                nextPos.y = currentPos.y + 1;
+                nextPos.x = currentPos.x;
+                move = true;
             }
-            
+
+
         }
 
         if (Input.GetKeyDown(KeyCode.A))
         {
-
-            canLeft = CheckLeft();
-
-            if (base.canLeft)
+            if (CheckLeft())
             {
-                prevPos = base.currentPos;
-                base.currentPos.x--;
+
+                nextPos.x = currentPos.x - 1;
+                nextPos.y = currentPos.y;
                 move = true;
             }
+
 
         }
 
         if (Input.GetKeyDown(KeyCode.D))
         {
-
-            canRight = CheckRight();
-
-            if (base.canRight)
+            if (CheckRight())
             {
-                prevPos = base.currentPos;
-                base.currentPos.x++;
+                nextPos.x = currentPos.x + 1;
+                nextPos.y = currentPos.y;
                 move = true;
             }
 
-
         }
+
 
     }
 
     private void LateUpdate()
     {
+        //Maybe put this.gameObject.GetComponent<GridObject>().gridPosition = base.currentPos; here
+
         if (move)
         {
-            Manager.reference.blockArray[prevPos.x, prevPos.y] = null;
-            this.gameObject.GetComponent<GridObject>().gridPosition = base.currentPos;
-            PosDebug();
+            Manager.reference.blockArray[currentPos.x, currentPos.y] = null;
+            currentPos = nextPos;
+            this.gameObject.GetComponent<GridObject>().gridPosition = currentPos;
+            nextPos = Vector2Int.zero;
             move = false;
         }
-    }
 
+    }
 
 
     public bool CheckLeft()
