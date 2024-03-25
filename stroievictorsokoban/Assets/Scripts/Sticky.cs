@@ -311,7 +311,7 @@ public class Sticky : Block
                         }
                             if (twoAway.CompareTag("player"))
                             {
-                                return twoAway.GetComponent<Player>().CheckLeft();
+                                return true;
                             }
                             else
                             {
@@ -678,7 +678,7 @@ public class Sticky : Block
 
                     if (twoAway.CompareTag("player"))
                     {
-                        return twoAway.GetComponent<Player>().CheckRight();
+                        return true;
                     }
                     else
                     {
@@ -1047,7 +1047,7 @@ public class Sticky : Block
                     }
                     if (twoAway.CompareTag("player"))
                     {
-                        return twoAway.GetComponent<Player>().CheckUp();
+                        return true;
                     }
                     else
                     {
@@ -1426,7 +1426,7 @@ public class Sticky : Block
                     }
                     if(twoAway.CompareTag("player"))
                     {
-                        return twoAway.GetComponent<Player>().CheckDown();
+                        return true;
                     } else
                     {
                         return false;
