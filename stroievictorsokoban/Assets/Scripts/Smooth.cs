@@ -133,6 +133,7 @@ public class Smooth : Block
                 }
                 else if (downblock.CompareTag("sticky"))
                 {   //come back, unless sticky can't moove for some other reason
+                    //return downblock.GetComponent<Sticky>().CheckUp();
                     return downblock.GetComponent<Sticky>().CheckUp();
                 }
                 else if (downblock.CompareTag("wall"))
@@ -161,17 +162,19 @@ public class Smooth : Block
                 }
                 else if (upblock.CompareTag("sticky"))
                 {
+
+                    if(downblock == null) return upblock.GetComponent<Sticky>().CheckUp();
                     if (downblock.CompareTag("player"))
                     {
-                        return upblock.GetComponent<Sticky>().CheckDown() && downblock.GetComponent<Player>().CheckDown();
+                        return upblock.GetComponent<Sticky>().CheckUp() && downblock.GetComponent<Player>().CheckUp();
                     }
                     else if (downblock.CompareTag("smooth"))
                     {
-                        return upblock.GetComponent<Sticky>().CheckDown() && downblock.GetComponent<Smooth>().CheckDown();
+                        return upblock.GetComponent<Sticky>().CheckUp() && downblock.GetComponent<Smooth>().CheckUp();
                     }
                     else if (downblock.CompareTag("sticky"))
                     {
-                        return upblock.GetComponent<Sticky>().CheckDown() && downblock.GetComponent<Sticky>().CheckDown();
+                        return upblock.GetComponent<Sticky>().CheckUp() && downblock.GetComponent<Sticky>().CheckUp();
                     }
                     else
                     {
@@ -186,15 +189,15 @@ public class Smooth : Block
                 {
                     if (downblock.CompareTag("player"))
                     {
-                        return upblock.GetComponent<Smooth>().CheckDown() && downblock.GetComponent<Player>().CheckDown();
+                        return upblock.GetComponent<Smooth>().CheckUp() && downblock.GetComponent<Player>().CheckUp();
                     }
                     else if (downblock.CompareTag("smooth"))
                     {
-                        return upblock.GetComponent<Smooth>().CheckDown() && downblock.GetComponent<Smooth>().CheckDown();
+                        return upblock.GetComponent<Smooth>().CheckUp() && downblock.GetComponent<Smooth>().CheckUp();
                     }
                     else if (downblock.CompareTag("sticky"))
                     {
-                        return upblock.GetComponent<Smooth>().CheckDown() && downblock.GetComponent<Sticky>().CheckDown();
+                        return upblock.GetComponent<Smooth>().CheckUp() && downblock.GetComponent<Sticky>().CheckUp();
                     }
                     else
                     {
@@ -265,6 +268,10 @@ public class Smooth : Block
                 }
                 else if (downblock.CompareTag("sticky"))
                 {
+                    if(upblock == null)
+                    {
+                        return downblock.GetComponent<Sticky>().CheckDown();
+                    }
                     if (upblock.CompareTag("player"))
                     {
                         return downblock.GetComponent<Sticky>().CheckDown() && upblock.GetComponent<Player>().CheckDown();
@@ -369,6 +376,8 @@ public class Smooth : Block
                 }
                 else if (leftblock.CompareTag("sticky"))
                 {
+
+                    if(rightblock == null) return leftblock.GetComponent<Sticky>().CheckLeft();
                     if (rightblock.CompareTag("player"))
                     {
                         return leftblock.GetComponent<Sticky>().CheckLeft() && rightblock.GetComponent<Player>().CheckLeft();
@@ -476,6 +485,7 @@ public class Smooth : Block
                     {
 
                         //need to check for all lefts
+                        if(leftblock == null) return rightblock.GetComponent<Sticky>().CheckRight();
                         if (leftblock.CompareTag("player"))
                         {
                             return rightblock.GetComponent<Sticky>().CheckRight() && leftblock.GetComponent<Player>().CheckRight();

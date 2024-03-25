@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class Sticky : Block
 {
@@ -153,7 +154,8 @@ public class Sticky : Block
                                 {
                                     return temp;
                                 }
-                                if(downblock.CompareTag("smooth"))
+                                if (downblock.CompareTag("player")) return temp || downblock.GetComponent<Player>().CheckLeft();
+                                if (downblock.CompareTag("smooth"))
                                 {
                                    return temp || downblock.GetComponent<Smooth>().CheckLeft();
                                 } else if(downblock.CompareTag("sticky"))
@@ -171,7 +173,7 @@ public class Sticky : Block
                             {
                                 return upblock.GetComponent<Player>().CheckLeft();
                             }
-                            else if (downblock.CompareTag("player"))
+                            else if (downblock != null && downblock.CompareTag("player"))
                             {
                                 return downblock.GetComponent<Player>().CheckLeft();
                             }
@@ -212,8 +214,110 @@ public class Sticky : Block
                    }
                    else if (rightblock.CompareTag("smooth"))
                    {
-                      return rightblock.GetComponent<Smooth>().CheckLeft();
-                   }
+                        //if (currentPos.x == 4) return false;
+                        GameObject twoAway = Manager.reference.blockArray[currentPos.x + 2, currentPos.y];
+
+                        if (twoAway == null)
+                        {
+                            if (upblock == null)
+                            {
+                                if (downblock == null)
+                                {
+                                    return false;
+                                }
+                                if (downblock.CompareTag("player"))
+                                {
+                                    return downblock.GetComponent<Player>().CheckLeft();
+                                }
+                                if (downblock.CompareTag("smooth"))
+                                {
+                                    return downblock.GetComponent<Smooth>().CheckLeft();
+                                }
+                                else if (downblock.CompareTag("sticky"))
+                                {
+                                    return downblock.GetComponent<Sticky>().CheckLeft();
+                                }
+                                else if (downblock.CompareTag("clingy"))
+                                {
+                                    return downblock.GetComponent<Clingy>().CheckLeft();
+                                }
+                                else
+                                {
+                                    return false;
+                                }
+                            }
+                            if (upblock.CompareTag("clingy"))
+                            {
+                                bool temp = upblock.GetComponent<Clingy>().CheckLeft();
+                                if (downblock == null)
+                                {
+                                    return temp;
+                                }
+                                if (downblock.CompareTag("player")) return temp || downblock.GetComponent<Player>().CheckLeft();
+                                if (downblock.CompareTag("smooth"))
+                                {
+                                    return temp || downblock.GetComponent<Smooth>().CheckLeft();
+                                }
+                                else if (downblock.CompareTag("sticky"))
+                                {
+                                    return temp || downblock.GetComponent<Sticky>().CheckLeft();
+                                }
+                                else if (downblock.CompareTag("clingy"))
+                                {
+                                    return temp || downblock.GetComponent<Clingy>().CheckLeft();
+                                }
+                                else
+                                {
+                                    return temp;
+                                }
+                            }
+                            else if (upblock.CompareTag("player"))
+                            {
+                                return upblock.GetComponent<Player>().CheckLeft();
+                            }
+                            else if (downblock != null && downblock.CompareTag("player"))
+                            {
+                                return downblock.GetComponent<Player>().CheckLeft();
+                            }
+                            else if (upblock.CompareTag("smooth"))
+                            {
+                                bool temp = upblock.GetComponent<Smooth>().CheckLeft();
+
+                                if (downblock == null)
+                                {
+                                    return temp;
+                                }
+                                if (downblock.CompareTag("smooth"))
+                                {
+                                    return temp || downblock.GetComponent<Smooth>().CheckLeft();
+                                }
+                                else if (downblock.CompareTag("sticky"))
+                                {
+                                    return temp || downblock.GetComponent<Sticky>().CheckLeft();
+                                }
+                                else if (downblock.CompareTag("clingy"))
+                                {
+                                    return temp || downblock.GetComponent<Clingy>().CheckLeft();
+                                }
+                                else
+                                {
+                                    return temp;
+                                }
+                            }
+                            else
+                            {
+                                return false;
+                            }
+                        }
+                            if (twoAway.CompareTag("player"))
+                            {
+                                return twoAway.GetComponent<Player>().CheckLeft();
+                            }
+                            else
+                            {
+                                return false;
+                            }
+                    }
                    else
                    {
                       return false;
@@ -222,7 +326,126 @@ public class Sticky : Block
                 }
             else if(leftblock.CompareTag("smooth"))
             {
-                return leftblock.GetComponent<Smooth>().CheckLeft();    
+                
+                if(currentPos.x == 2)
+                {
+                    return false;
+                }
+
+                GameObject twoAway = Manager.reference.blockArray[currentPos.x - 2, currentPos.y];
+
+                if (twoAway == null)
+                {
+                    if (rightblock == null || rightblock.CompareTag("clingy") || rightblock.CompareTag("wall") || rightblock.CompareTag("sticky"))
+                    {
+                        if (upblock == null)
+                        {
+                            if (downblock == null)
+                            {
+                                return false;
+                            }
+                            if (downblock.CompareTag("player"))
+                            {
+                                return downblock.GetComponent<Player>().CheckLeft();
+                            }
+                            if (downblock.CompareTag("smooth"))
+                            {
+                                return downblock.GetComponent<Smooth>().CheckLeft();
+                            }
+                            else if (downblock.CompareTag("sticky"))
+                            {
+                                return downblock.GetComponent<Sticky>().CheckLeft();
+                            }
+                            else if (downblock.CompareTag("clingy"))
+                            {
+                                return downblock.GetComponent<Clingy>().CheckLeft();
+                            }
+                            else
+                            {
+                                return false;
+                            }
+                        }
+                        if (upblock.CompareTag("clingy"))
+                        {
+                            bool temp = upblock.GetComponent<Clingy>().CheckLeft();
+                            if (downblock == null)
+                            {
+                                return temp;
+                            }
+                            if (downblock.CompareTag("player")) return temp || downblock.GetComponent<Player>().CheckLeft();
+                            if (downblock.CompareTag("smooth"))
+                            {
+                                return temp || downblock.GetComponent<Smooth>().CheckLeft();
+                            }
+                            else if (downblock.CompareTag("sticky"))
+                            {
+                                return temp || downblock.GetComponent<Sticky>().CheckLeft();
+                            }
+                            else if (downblock.CompareTag("clingy"))
+                            {
+                                return temp || downblock.GetComponent<Clingy>().CheckLeft();
+                            }
+                            else
+                            {
+                                return temp;
+                            }
+                        }
+                        else if (upblock.CompareTag("player"))
+                        {
+                            return upblock.GetComponent<Player>().CheckLeft();
+                        }
+                        else if (downblock != null && downblock.CompareTag("player"))
+                        {
+                            return downblock.GetComponent<Player>().CheckLeft();
+                        }
+                        else if (upblock.CompareTag("smooth"))
+                        {
+                            bool temp = upblock.GetComponent<Smooth>().CheckLeft();
+
+                            if (downblock == null)
+                            {
+                                return temp;
+                            }
+                            if (downblock.CompareTag("smooth"))
+                            {
+                                return temp || downblock.GetComponent<Smooth>().CheckLeft();
+                            }
+                            else if (downblock.CompareTag("sticky"))
+                            {
+                                return temp || downblock.GetComponent<Sticky>().CheckLeft();
+                            }
+                            else if (downblock.CompareTag("clingy"))
+                            {
+                                return temp || downblock.GetComponent<Clingy>().CheckLeft();
+                            }
+                            else
+                            {
+                                return temp;
+                            }
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    else if (rightblock.CompareTag("player"))
+                    {
+                        //return rightblock.GetComponent<Player>().CheckLeft();
+                        return true;
+                    }
+                    else if (rightblock.CompareTag("smooth"))
+                    {
+                        return rightblock.GetComponent<Smooth>().CheckLeft();
+                    }
+                    else
+                    {
+                        return false;
+                    }
+
+                } else
+                {
+                   return false;
+                }
             }
             else if (leftblock.CompareTag("player"))
             {
@@ -230,7 +453,7 @@ public class Sticky : Block
             }
             else if(leftblock.CompareTag("clingy"))
                 {
-                    return false;
+                    return leftblock.GetComponent<Clingy>().CheckLeft();
                 } else if(leftblock.CompareTag("wall"))
                 {
                     return false;
@@ -294,6 +517,7 @@ public class Sticky : Block
                         {
                             return temp;
                         }
+                        if (downblock.CompareTag("player")) return temp || downblock.GetComponent<Player>().CheckRight();
                         if (downblock.CompareTag("smooth"))
                         {
                             return temp || downblock.GetComponent<Smooth>().CheckRight();
@@ -315,7 +539,7 @@ public class Sticky : Block
                     {
                         return upblock.GetComponent<Player>().CheckRight();
                     }
-                    else if (downblock.CompareTag("player"))
+                    else if (downblock != null && downblock.CompareTag("player"))
                     {
                         return downblock.GetComponent<Player>().CheckRight();
                     }
@@ -351,12 +575,115 @@ public class Sticky : Block
                 }
                 else if (leftblock.CompareTag("player"))
                 {
-                    //return leftblock.GetComponent<Player>().CheckRight();
                     return true;
                 }
                 else if (leftblock.CompareTag("smooth"))
                 {
-                    return leftblock.GetComponent<Smooth>().CheckRight();
+                    //if (currentPos.x == 2) return false;
+                    GameObject twoAway = Manager.reference.blockArray[currentPos.x - 2, currentPos.y];
+
+                    if(twoAway == null)
+                    {
+                        if (upblock == null)
+                        {
+                            if (downblock == null)
+                            {
+                                return false;
+                            }
+                            if (downblock.CompareTag("player"))
+                            {
+                                return downblock.GetComponent<Player>().CheckRight();
+                            }
+                            if (downblock.CompareTag("smooth"))
+                            {
+                                return downblock.GetComponent<Smooth>().CheckRight();
+                            }
+                            else if (downblock.CompareTag("sticky"))
+                            {
+                                return downblock.GetComponent<Sticky>().CheckRight();
+                            }
+                            else if (downblock.CompareTag("clingy"))
+                            {
+                                return downblock.GetComponent<Clingy>().CheckRight();
+                            }
+                            else
+                            {
+                                return false;
+                            }
+                        }
+                        if (upblock.CompareTag("clingy"))
+                        {
+                            bool temp = upblock.GetComponent<Clingy>().CheckRight();
+                            if (downblock == null)
+                            {
+                                return temp;
+                            }
+                            if (downblock.CompareTag("player")) return temp || downblock.GetComponent<Player>().CheckRight();
+                            if (downblock.CompareTag("smooth"))
+                            {
+                                return temp || downblock.GetComponent<Smooth>().CheckRight();
+                            }
+                            else if (downblock.CompareTag("sticky"))
+                            {
+                                return temp || downblock.GetComponent<Sticky>().CheckRight();
+                            }
+                            else if (downblock.CompareTag("clingy"))
+                            {
+                                return temp || downblock.GetComponent<Clingy>().CheckRight();
+                            }
+                            else
+                            {
+                                return temp;
+                            }
+                        }
+                        else if (upblock.CompareTag("player"))
+                        {
+                            return upblock.GetComponent<Player>().CheckRight();
+                        }
+                        else if (downblock != null && downblock.CompareTag("player"))
+                        {
+                            return downblock.GetComponent<Player>().CheckRight();
+                        }
+                        else if (upblock.CompareTag("smooth"))
+                        {
+                            bool temp = upblock.GetComponent<Smooth>().CheckRight();
+
+                            if (downblock == null)
+                            {
+                                return temp;
+                            }
+                            if (downblock.CompareTag("smooth"))
+                            {
+                                return temp || downblock.GetComponent<Smooth>().CheckRight();
+                            }
+                            else if (downblock.CompareTag("sticky"))
+                            {
+                                return temp || downblock.GetComponent<Sticky>().CheckRight();
+                            }
+                            else if (downblock.CompareTag("clingy"))
+                            {
+                                return temp || downblock.GetComponent<Clingy>().CheckRight();
+                            }
+                            else
+                            {
+                                return temp;
+                            }
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+
+
+                    if (twoAway.CompareTag("player"))
+                    {
+                        return twoAway.GetComponent<Player>().CheckRight();
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
                 else
                 {
@@ -366,16 +693,133 @@ public class Sticky : Block
             }
             else if (rightblock.CompareTag("smooth"))
             {
-                return rightblock.GetComponent<Smooth>().CheckRight();
+
+                if (currentPos.x == 9) return false;
+
+                GameObject twoAway = Manager.reference.blockArray[currentPos.x + 2, currentPos.y];
+
+                if (twoAway == null)
+                {
+                    if (leftblock == null || leftblock.CompareTag("clingy") || leftblock.CompareTag("wall") || leftblock.CompareTag("sticky"))
+                    {
+                        if (upblock == null)
+                        {
+                            if (downblock == null)
+                            {
+                                return false;
+                            }
+                            if (downblock.CompareTag("player"))
+                            {
+                                return downblock.GetComponent<Player>().CheckRight();
+                            }
+                            if (downblock.CompareTag("smooth"))
+                            {
+                                return downblock.GetComponent<Smooth>().CheckRight();
+                            }
+                            else if (downblock.CompareTag("sticky"))
+                            {
+                                return downblock.GetComponent<Sticky>().CheckRight();
+                            }
+                            else if (downblock.CompareTag("clingy"))
+                            {
+                                return downblock.GetComponent<Clingy>().CheckRight();
+                            }
+                            else
+                            {
+                                return false;
+                            }
+                        }
+                        if (upblock.CompareTag("clingy"))
+                        {
+                            bool temp = upblock.GetComponent<Clingy>().CheckRight();
+                            if (downblock == null)
+                            {
+                                return temp;
+                            }
+                            if (downblock.CompareTag("player")) return temp || downblock.GetComponent<Player>().CheckRight();
+                            if (downblock.CompareTag("smooth"))
+                            {
+                                return temp || downblock.GetComponent<Smooth>().CheckRight();
+                            }
+                            else if (downblock.CompareTag("sticky"))
+                            {
+                                return temp || downblock.GetComponent<Sticky>().CheckRight();
+                            }
+                            else if (downblock.CompareTag("clingy"))
+                            {
+                                return temp || downblock.GetComponent<Clingy>().CheckRight();
+                            }
+                            else
+                            {
+                                return temp;
+                            }
+                        }
+                        else if (upblock.CompareTag("player"))
+                        {
+                            return upblock.GetComponent<Player>().CheckRight();
+                        }
+                        else if (downblock != null && downblock.CompareTag("player"))
+                        {
+                            return downblock.GetComponent<Player>().CheckRight();
+                        }
+                        else if (upblock.CompareTag("smooth"))
+                        {
+                            bool temp = upblock.GetComponent<Smooth>().CheckRight();
+
+                            if (downblock == null)
+                            {
+                                return temp;
+                            }
+                            if (downblock.CompareTag("smooth"))
+                            {
+                                return temp || downblock.GetComponent<Smooth>().CheckRight();
+                            }
+                            else if (downblock.CompareTag("sticky"))
+                            {
+                                return temp || downblock.GetComponent<Sticky>().CheckRight();
+                            }
+                            else if (downblock.CompareTag("clingy"))
+                            {
+                                return temp || downblock.GetComponent<Clingy>().CheckRight();
+                            }
+                            else
+                            {
+                                return temp;
+                            }
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    else if (leftblock.CompareTag("player"))
+                    {
+                        return true;
+                    }
+                    else if (leftblock.CompareTag("smooth"))
+                    {
+                        return leftblock.GetComponent<Smooth>().CheckRight();
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+                 
             }
             else if (rightblock.CompareTag("player"))
             {
                 //return rightblock.GetComponent<Player>().CheckRight();
-                return true;
+
+                if (currentPos.x == 9) return false; else return rightblock.GetComponent<Player>().CheckRight();
             }
             else if (rightblock.CompareTag("clingy"))
             {
-                return false;
+                return rightblock.GetComponent<Clingy>().CheckRight();
             }
             else if (rightblock.CompareTag("wall"))
             {
@@ -441,6 +885,8 @@ public class Sticky : Block
                         {
                             return temp;
                         }
+                        if (leftblock.CompareTag("player")) return temp || leftblock.GetComponent<Player>().CheckUp();
+
                         if (leftblock.CompareTag("smooth"))
                         {
                             return temp || leftblock.GetComponent<Smooth>().CheckUp();
@@ -462,7 +908,7 @@ public class Sticky : Block
                     {
                         return rightblock.GetComponent<Player>().CheckUp();
                     }
-                    else if (leftblock.CompareTag("player"))
+                    else if (leftblock != null && leftblock.CompareTag("player"))
                     {
                         return leftblock.GetComponent<Player>().CheckUp();
                     }
@@ -503,7 +949,110 @@ public class Sticky : Block
                 }
                 else if (downblock.CompareTag("smooth"))
                 {
-                    return downblock.GetComponent<Smooth>().CheckUp();
+                    //if (currentPos.y == 4) return false;
+                    GameObject twoAway = Manager.reference.blockArray[currentPos.x, currentPos.y + 2];
+
+                    if(twoAway == null)
+                    {
+                        if (rightblock == null)
+                        {
+                            if (leftblock == null)
+                            {
+                                return false;
+                            }
+                            if (leftblock.CompareTag("player"))
+                            {
+                                return leftblock.GetComponent<Player>().CheckUp();
+                            }
+                            if (leftblock.CompareTag("smooth"))
+                            {
+                                return leftblock.GetComponent<Smooth>().CheckUp();
+                            }
+                            else if (leftblock.CompareTag("sticky"))
+                            {
+                                return leftblock.GetComponent<Sticky>().CheckUp();
+                            }
+                            else if (leftblock.CompareTag("clingy"))
+                            {
+                                return leftblock.GetComponent<Clingy>().CheckUp();
+                            }
+                            else
+                            {
+                                return false;
+                            }
+                        }
+                        if (rightblock.CompareTag("clingy"))
+                        {
+                            bool temp = rightblock.GetComponent<Clingy>().CheckUp();
+                            if (leftblock == null)
+                            {
+                                return temp;
+                            }
+                            if (leftblock.CompareTag("player")) return temp || leftblock.GetComponent<Player>().CheckUp();
+
+                            if (leftblock.CompareTag("smooth"))
+                            {
+                                return temp || leftblock.GetComponent<Smooth>().CheckUp();
+                            }
+                            else if (leftblock.CompareTag("sticky"))
+                            {
+                                return temp || leftblock.GetComponent<Sticky>().CheckUp();
+                            }
+                            else if (leftblock.CompareTag("clingy"))
+                            {
+                                return temp || leftblock.GetComponent<Clingy>().CheckUp();
+                            }
+                            else
+                            {
+                                return temp;
+                            }
+                        }
+                        else if (rightblock.CompareTag("player"))
+                        {
+                            return rightblock.GetComponent<Player>().CheckUp();
+                        }
+                        else if (leftblock != null && leftblock.CompareTag("player"))
+                        {
+                            return leftblock.GetComponent<Player>().CheckUp();
+                        }
+                        else if (rightblock.CompareTag("smooth"))
+                        {
+                            bool temp = rightblock.GetComponent<Smooth>().CheckUp();
+
+                            if (leftblock == null)
+                            {
+                                return temp;
+                            }
+                            if (leftblock.CompareTag("smooth"))
+                            {
+                                return temp || leftblock.GetComponent<Smooth>().CheckUp();
+                            }
+                            else if (leftblock.CompareTag("sticky"))
+                            {
+                                return temp || leftblock.GetComponent<Sticky>().CheckUp();
+                            }
+                            else if (leftblock.CompareTag("clingy"))
+                            {
+                                return temp || leftblock.GetComponent<Clingy>().CheckUp();
+                            }
+                            else
+                            {
+                                return temp;
+                            }
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    if (twoAway.CompareTag("player"))
+                    {
+                        return twoAway.GetComponent<Player>().CheckUp();
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
                 else
                 {
@@ -513,15 +1062,141 @@ public class Sticky : Block
             }
             else if (upblock.CompareTag("smooth"))
             {
-                return upblock.GetComponent<Smooth>().CheckUp();
+                
+
+                if (currentPos.y == 2)
+                {
+                    return false;
+                }
+
+                GameObject twoAway = Manager.reference.blockArray[currentPos.x, currentPos.y - 2];
+
+                if (twoAway == null)
+                {
+
+                    if (downblock == null || downblock.CompareTag("clingy") || downblock.CompareTag("wall") || downblock.CompareTag("sticky"))
+                    {
+                        if (rightblock == null)
+                        {
+                            if (leftblock == null)
+                            {
+                                return false;
+                            }
+                            if (leftblock.CompareTag("player"))
+                            {
+                                return leftblock.GetComponent<Player>().CheckUp();
+                            }
+                            if (leftblock.CompareTag("smooth"))
+                            {
+                                return leftblock.GetComponent<Smooth>().CheckUp();
+                            }
+                            else if (leftblock.CompareTag("sticky"))
+                            {
+                                return leftblock.GetComponent<Sticky>().CheckUp();
+                            }
+                            else if (leftblock.CompareTag("clingy"))
+                            {
+                                return leftblock.GetComponent<Clingy>().CheckUp();
+                            }
+                            else
+                            {
+                                return false;
+                            }
+                        }
+                        if (rightblock.CompareTag("clingy"))
+                        {
+                            bool temp = rightblock.GetComponent<Clingy>().CheckUp();
+                            if (leftblock == null)
+                            {
+                                return temp;
+                            }
+                            if (leftblock.CompareTag("player")) return temp || leftblock.GetComponent<Player>().CheckUp();
+
+                            if (leftblock.CompareTag("smooth"))
+                            {
+                                return temp || leftblock.GetComponent<Smooth>().CheckUp();
+                            }
+                            else if (leftblock.CompareTag("sticky"))
+                            {
+                                return temp || leftblock.GetComponent<Sticky>().CheckUp();
+                            }
+                            else if (leftblock.CompareTag("clingy"))
+                            {
+                                return temp || leftblock.GetComponent<Clingy>().CheckUp();
+                            }
+                            else
+                            {
+                                return temp;
+                            }
+                        }
+                        else if (rightblock.CompareTag("player"))
+                        {
+                            return rightblock.GetComponent<Player>().CheckUp();
+                        }
+                        else if (leftblock != null && leftblock.CompareTag("player"))
+                        {
+                            return leftblock.GetComponent<Player>().CheckUp();
+                        }
+                        else if (rightblock.CompareTag("smooth"))
+                        {
+                            bool temp = rightblock.GetComponent<Smooth>().CheckUp();
+
+                            if (leftblock == null)
+                            {
+                                return temp;
+                            }
+                            if (leftblock.CompareTag("smooth"))
+                            {
+                                return temp || leftblock.GetComponent<Smooth>().CheckUp();
+                            }
+                            else if (leftblock.CompareTag("sticky"))
+                            {
+                                return temp || leftblock.GetComponent<Sticky>().CheckUp();
+                            }
+                            else if (leftblock.CompareTag("clingy"))
+                            {
+                                return temp || leftblock.GetComponent<Clingy>().CheckUp();
+                            }
+                            else
+                            {
+                                return temp;
+                            }
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    else if (downblock.CompareTag("player"))
+                    {
+                        return true;
+                    }
+                    else if (downblock.CompareTag("smooth"))
+                    {
+                        return downblock.GetComponent<Smooth>().CheckUp();
+                    }
+                    else
+                    {
+                        return false;
+                    }
+
+
+                } else
+                {
+                    return false;
+                }
+
+                
+
             }
             else if (upblock.CompareTag("player"))
             {
-                return upblock.GetComponent<Player>().CheckUp();
+                if (currentPos.y == 2) return false; else return upblock.GetComponent<Player>().CheckUp();
+                //return upblock.GetComponent<Player>().CheckUp();
             }
             else if (upblock.CompareTag("clingy"))
             {
-                return false;
+                return upblock.GetComponent<Clingy>().CheckUp();
             }
             else if (upblock.CompareTag("wall"))
             {
@@ -587,6 +1262,9 @@ public class Sticky : Block
                         {
                             return temp;
                         }
+
+                        if (leftblock.CompareTag("player")) return temp || leftblock.GetComponent<Player>().CheckDown();
+
                         if (leftblock.CompareTag("smooth"))
                         {
                             return temp || leftblock.GetComponent<Smooth>().CheckDown();
@@ -608,7 +1286,7 @@ public class Sticky : Block
                     {
                         return rightblock.GetComponent<Player>().CheckDown();
                     }
-                    else if (leftblock.CompareTag("player"))
+                    else if (leftblock != null && leftblock.CompareTag("player"))
                     {
                         return leftblock.GetComponent<Player>().CheckDown();
                     }
@@ -646,10 +1324,113 @@ public class Sticky : Block
                 {
                     //return upblock.GetComponent<Player>().CheckDown();
                     return true;
-                }
-                else if (upblock.CompareTag("smooth"))
+                } else if(upblock.CompareTag("smooth"))
                 {
-                    return upblock.GetComponent<Smooth>().CheckDown();
+                    //if (currentPos.y == 2) return false;
+
+                    GameObject twoAway = Manager.reference.blockArray[currentPos.x, currentPos.y - 2];
+
+                    if(twoAway == null)
+                    {
+                        if (rightblock == null)
+                        {
+                            if (leftblock == null)
+                            {
+                                return false;
+                            }
+                            if (leftblock.CompareTag("player"))
+                            {
+                                return leftblock.GetComponent<Player>().CheckDown();
+                            }
+                            if (leftblock.CompareTag("smooth"))
+                            {
+                                return leftblock.GetComponent<Smooth>().CheckDown();
+                            }
+                            else if (leftblock.CompareTag("sticky"))
+                            {
+                                return leftblock.GetComponent<Sticky>().CheckDown();
+                            }
+                            else if (leftblock.CompareTag("clingy"))
+                            {
+                                return leftblock.GetComponent<Clingy>().CheckDown();
+                            }
+                            else
+                            {
+                                return false;
+                            }
+                        }
+                        if (rightblock.CompareTag("clingy"))
+                        {
+                            bool temp = rightblock.GetComponent<Clingy>().CheckDown();
+                            if (leftblock == null)
+                            {
+                                return temp;
+                            }
+
+                            if (leftblock.CompareTag("player")) return temp || leftblock.GetComponent<Player>().CheckDown();
+
+                            if (leftblock.CompareTag("smooth"))
+                            {
+                                return temp || leftblock.GetComponent<Smooth>().CheckDown();
+                            }
+                            else if (leftblock.CompareTag("sticky"))
+                            {
+                                return temp || leftblock.GetComponent<Sticky>().CheckDown();
+                            }
+                            else if (leftblock.CompareTag("clingy"))
+                            {
+                                return temp || leftblock.GetComponent<Clingy>().CheckDown();
+                            }
+                            else
+                            {
+                                return temp;
+                            }
+                        }
+                        else if (rightblock.CompareTag("player"))
+                        {
+                            return rightblock.GetComponent<Player>().CheckDown();
+                        }
+                        else if (leftblock != null && leftblock.CompareTag("player"))
+                        {
+                            return leftblock.GetComponent<Player>().CheckDown();
+                        }
+                        else if (rightblock.CompareTag("smooth"))
+                        {
+                            bool temp = rightblock.GetComponent<Smooth>().CheckDown();
+
+                            if (leftblock == null)
+                            {
+                                return temp;
+                            }
+                            if (leftblock.CompareTag("smooth"))
+                            {
+                                return temp || leftblock.GetComponent<Smooth>().CheckDown();
+                            }
+                            else if (leftblock.CompareTag("sticky"))
+                            {
+                                return temp || leftblock.GetComponent<Sticky>().CheckDown();
+                            }
+                            else if (leftblock.CompareTag("clingy"))
+                            {
+                                return temp || leftblock.GetComponent<Clingy>().CheckDown();
+                            }
+                            else
+                            {
+                                return temp;
+                            }
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    if(twoAway.CompareTag("player"))
+                    {
+                        return twoAway.GetComponent<Player>().CheckDown();
+                    } else
+                    {
+                        return false;
+                    }
                 }
                 else
                 {
@@ -659,7 +1440,125 @@ public class Sticky : Block
             }
             else if (downblock.CompareTag("smooth"))
             {
-                return downblock.GetComponent<Smooth>().CheckDown();
+               
+                if (currentPos.y == 4) return false;
+
+                GameObject twoAway = Manager.reference.blockArray[currentPos.x, currentPos.y + 2];
+
+
+                if (twoAway == null)
+                {
+                    if (upblock == null || upblock.CompareTag("clingy") || upblock.CompareTag("wall") || upblock.CompareTag("sticky"))
+                    {
+                        if (rightblock == null)
+                        {
+                            if (leftblock == null)
+                            {
+                                return false;
+                            }
+                            if (leftblock.CompareTag("player"))
+                            {
+                                return leftblock.GetComponent<Player>().CheckDown();
+                            }
+                            if (leftblock.CompareTag("smooth"))
+                            {
+                                return leftblock.GetComponent<Smooth>().CheckDown();
+                            }
+                            else if (leftblock.CompareTag("sticky"))
+                            {
+                                return leftblock.GetComponent<Sticky>().CheckDown();
+                            }
+                            else if (leftblock.CompareTag("clingy"))
+                            {
+                                return leftblock.GetComponent<Clingy>().CheckDown();
+                            }
+                            else
+                            {
+                                return false;
+                            }
+                        }
+                        if (rightblock.CompareTag("clingy"))
+                        {
+                            bool temp = rightblock.GetComponent<Clingy>().CheckDown();
+                            if (leftblock == null)
+                            {
+                                return temp;
+                            }
+
+                            if (leftblock.CompareTag("player")) return temp || leftblock.GetComponent<Player>().CheckDown();
+
+                            if (leftblock.CompareTag("smooth"))
+                            {
+                                return temp || leftblock.GetComponent<Smooth>().CheckDown();
+                            }
+                            else if (leftblock.CompareTag("sticky"))
+                            {
+                                return temp || leftblock.GetComponent<Sticky>().CheckDown();
+                            }
+                            else if (leftblock.CompareTag("clingy"))
+                            {
+                                return temp || leftblock.GetComponent<Clingy>().CheckDown();
+                            }
+                            else
+                            {
+                                return temp;
+                            }
+                        }
+                        else if (rightblock.CompareTag("player"))
+                        {
+                            return rightblock.GetComponent<Player>().CheckDown();
+                        }
+                        else if (leftblock != null && leftblock.CompareTag("player"))
+                        {
+                            return leftblock.GetComponent<Player>().CheckDown();
+                        }
+                        else if (rightblock.CompareTag("smooth"))
+                        {
+                            bool temp = rightblock.GetComponent<Smooth>().CheckDown();
+
+                            if (leftblock == null)
+                            {
+                                return temp;
+                            }
+                            if (leftblock.CompareTag("smooth"))
+                            {
+                                return temp || leftblock.GetComponent<Smooth>().CheckDown();
+                            }
+                            else if (leftblock.CompareTag("sticky"))
+                            {
+                                return temp || leftblock.GetComponent<Sticky>().CheckDown();
+                            }
+                            else if (leftblock.CompareTag("clingy"))
+                            {
+                                return temp || leftblock.GetComponent<Clingy>().CheckDown();
+                            }
+                            else
+                            {
+                                return temp;
+                            }
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    else if (upblock.CompareTag("player"))
+                    {
+                        //return upblock.GetComponent<Player>().CheckDown();
+                        return true;
+                    }
+                    else if (upblock.CompareTag("smooth"))
+                    {
+                        return upblock.GetComponent<Smooth>().CheckDown();
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                } else
+                {
+                    return false;
+                }
             }
             else if (downblock.CompareTag("player"))
             {
@@ -667,7 +1566,7 @@ public class Sticky : Block
             }
             else if (downblock.CompareTag("clingy"))
             {
-                return false;
+                return downblock.GetComponent<Clingy>().CheckDown();
             }
             else if (downblock.CompareTag("wall"))
             {
@@ -678,48 +1577,6 @@ public class Sticky : Block
                 return downblock.GetComponent<Sticky>().CheckDown();
             }
 
-        }
-    }
-
-
-
-    private void CheckIfMovable()
-    {
-        int count = 0;
-        for (int i = 0; i < 5; i++)
-        {
-            if (((Manager.reference.pos[i].x == base.currentPos.x + 1 && Manager.reference.pos[i].y == base.currentPos.y)
-            || (Manager.reference.pos[i].x == base.currentPos.x && Manager.reference.pos[i].y == base.currentPos.y + 1)
-            || (Manager.reference.pos[i].x == base.currentPos.x - 1 && Manager.reference.pos[i].y == base.currentPos.y)
-            || (Manager.reference.pos[i].x == base.currentPos.x && Manager.reference.pos[i].y == base.currentPos.y - 1))
-            && Manager.reference.touched[i])
-            {
-                base.touchedByPlayer = true;
-                count++;
-                Debug.Log("touched!");
-            }
-        }
-
-        if (count == 0)
-        {
-            base.touchedByPlayer = false;
-        }
-
-    }
-
-    private void CheckIfTouched()
-    {
-        if (((playerPos.x == base.currentPos.x + 1 && playerPos.y == base.currentPos.y)
-           || (playerPos.x == base.currentPos.x && playerPos.y == base.currentPos.y + 1)
-           || (playerPos.x == base.currentPos.x - 1 && playerPos.y == base.currentPos.y)
-           || (playerPos.x == base.currentPos.x && playerPos.y == base.currentPos.y - 1)))
-        {
-
-            touchedByPlayer = true;
-
-        } else
-        {
-            touchedByPlayer = false;
         }
     }
 
